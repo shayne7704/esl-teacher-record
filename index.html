@@ -1,0 +1,7397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESL Teacher Record Sheet</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #ffffff;
+    background: #07111f;
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   THEMES
+========================================================= */
+
+body.theme-ocean {
+    --bg1: #020817;
+    --bg2: #062a4a;
+    --primary: #18bfff;
+    --secondary: #0878ff;
+    --accent: #8eeaff;
+    --card: rgba(5, 38, 67, 0.68);
+    --card2: rgba(255,255,255,0.08);
+    --border: rgba(98,220,255,0.24);
+    --text: #ffffff;
+    --muted: #afd9ec;
+    --danger: #ff587c;
+    --success: #45e6b0;
+    --warning: #ffd166;
+    --shadow: 0 20px 60px rgba(0,0,0,0.42);
+}
+
+body.theme-purple {
+    --bg1: #08051a;
+    --bg2: #21105a;
+    --primary: #8b7cff;
+    --secondary: #5d3cff;
+    --accent: #c7c1ff;
+    --card: rgba(31, 20, 78, 0.70);
+    --card2: rgba(255,255,255,0.08);
+    --border: rgba(169,156,255,0.24);
+    --text: #ffffff;
+    --muted: #c5c0e8;
+    --danger: #ff5f9a;
+    --success: #52e8b3;
+    --warning: #ffd166;
+    --shadow: 0 20px 60px rgba(0,0,0,0.44);
+}
+
+body.theme-emerald {
+    --bg1: #021513;
+    --bg2: #063d3b;
+    --primary: #1de7c5;
+    --secondary: #00a6a6;
+    --accent: #8affea;
+    --card: rgba(5, 58, 58, 0.70);
+    --card2: rgba(255,255,255,0.08);
+    --border: rgba(89,255,226,0.22);
+    --text: #ffffff;
+    --muted: #a9ded8;
+    --danger: #ff5d82;
+    --success: #43e6b0;
+    --warning: #ffd166;
+    --shadow: 0 20px 60px rgba(0,0,0,0.40);
+}
+
+body.theme-rose {
+    --bg1: #09061b;
+    --bg2: #32135f;
+    --primary: #55c7ff;
+    --secondary: #8b5cff;
+    --accent: #d8c8ff;
+    --card: rgba(37, 20, 76, 0.70);
+    --card2: rgba(255,255,255,0.08);
+    --border: rgba(153,199,255,0.22);
+    --text: #ffffff;
+    --muted: #c0c4e6;
+    --danger: #ff668d;
+    --success: #55e8b5;
+    --warning: #ffd166;
+    --shadow: 0 20px 60px rgba(0,0,0,0.43);
+}
+
+body.theme-sunset {
+    --bg1: #030a18;
+    --bg2: #073d68;
+    --primary: #36d8ff;
+    --secondary: #1264ff;
+    --accent: #b7f3ff;
+    --card: rgba(7, 49, 82, 0.70);
+    --card2: rgba(255,255,255,0.08);
+    --border: rgba(94,220,255,0.23);
+    --text: #ffffff;
+    --muted: #afd8e9;
+    --danger: #ff5f7f;
+    --success: #48e8b0;
+    --warning: #ffd166;
+    --shadow: 0 20px 60px rgba(0,0,0,0.42);
+}
+
+body.theme-midnight {
+    --bg1: #01030b;
+    --bg2: #101735;
+    --primary: #647cff;
+    --secondary: #2e4fff;
+    --accent: #b6c1ff;
+    --card: rgba(12, 21, 53, 0.74);
+    --card2: rgba(255,255,255,0.07);
+    --border: rgba(128,149,255,0.22);
+    --text: #ffffff;
+    --muted: #adb9db;
+    --danger: #ff5476;
+    --success: #4be4ac;
+    --warning: #ffd166;
+    --shadow: 0 20px 60px rgba(0,0,0,0.50);
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+body {
+    background:
+        radial-gradient(circle at 15% 20%, rgba(0,150,255,0.12), transparent 28%),
+        radial-gradient(circle at 85% 80%, rgba(145,60,255,0.12), transparent 30%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+    transition: background 0.5s ease;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(255,255,255,0.08),
+            transparent 35%
+        );
+    z-index: -1;
+}
+
+
+/* =========================================================
+   GENERAL
+========================================================= */
+
+.hidden {
+    display: none !important;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.app {
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   COOL NEON SIDE-LIGHT BUTTON EFFECT
+   ========================================================= */
+
+.primary-btn,
+.secondary-btn,
+.top-btn,
+.back-btn,
+.add-record-btn,
+.table-action,
+.theme-btn,
+.popup-close {
+    position: relative;
+    isolation: isolate;
+    overflow: visible;
+
+    transition:
+        transform 0.28s cubic-bezier(.2,.8,.2,1),
+        box-shadow 0.28s ease,
+        border-color 0.28s ease,
+        background 0.28s ease;
+}
+
+/* Keep button text/icons above the glow */
+.primary-btn > *,
+.secondary-btn > *,
+.top-btn > *,
+.back-btn > *,
+.add-record-btn > *,
+.table-action > *,
+.theme-btn > *,
+.popup-close > * {
+    position: relative;
+    z-index: 3;
+}
+
+/* LEFT + RIGHT neon light bars */
+.primary-btn::before,
+.primary-btn::after,
+.secondary-btn::before,
+.secondary-btn::after,
+.top-btn::before,
+.top-btn::after,
+.back-btn::before,
+.back-btn::after,
+.add-record-btn::before,
+.add-record-btn::after,
+.table-action::before,
+.table-action::after,
+.theme-btn::before,
+.theme-btn::after,
+.popup-close::before,
+.popup-close::after {
+    content: "";
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    width: 4px;
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            var(--accent) 18%,
+            #ffffff 50%,
+            var(--accent) 82%,
+            transparent
+        );
+
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+
+    filter: blur(.2px);
+
+    transition:
+        opacity .22s ease,
+        transform .32s cubic-bezier(.2,.8,.2,1),
+        height .32s ease,
+        top .32s ease,
+        bottom .32s ease;
+}
+
+/* LEFT */
+.primary-btn::before,
+.secondary-btn::before,
+.top-btn::before,
+.back-btn::before,
+.add-record-btn::before,
+.table-action::before,
+.theme-btn::before,
+.popup-close::before {
+    left: -10px;
+    transform: translateX(7px) scaleY(.72);
+
+    box-shadow:
+        0 0 5px var(--accent),
+        0 0 12px var(--primary),
+        0 0 25px var(--primary),
+        0 0 45px var(--primary),
+        0 0 70px color-mix(in srgb, var(--primary) 65%, transparent);
+}
+
+/* RIGHT */
+.primary-btn::after,
+.secondary-btn::after,
+.top-btn::after,
+.back-btn::after,
+.add-record-btn::after,
+.table-action::after,
+.theme-btn::after,
+.popup-close::after {
+    right: -10px;
+    transform: translateX(-7px) scaleY(.72);
+
+    box-shadow:
+        0 0 5px var(--accent),
+        0 0 12px var(--primary),
+        0 0 25px var(--primary),
+        0 0 45px var(--primary),
+        0 0 70px color-mix(in srgb, var(--primary) 65%, transparent);
+}
+
+/* Soft glow around the entire button */
+.primary-btn:hover,
+.secondary-btn:hover,
+.top-btn:hover,
+.back-btn:hover,
+.add-record-btn:hover,
+.table-action:hover,
+.theme-btn:hover,
+.popup-close:hover {
+    transform: translateY(-5px) scale(1.08);
+    z-index: 30;
+
+    border-color: var(--accent);
+
+    box-shadow:
+        0 10px 28px color-mix(in srgb, var(--primary) 30%, transparent),
+        0 0 14px color-mix(in srgb, var(--primary) 38%, transparent),
+        0 0 32px color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+/* Turn on the neon bars */
+.primary-btn:hover::before,
+.primary-btn:hover::after,
+.secondary-btn:hover::before,
+.secondary-btn:hover::after,
+.top-btn:hover::before,
+.top-btn:hover::after,
+.back-btn:hover::before,
+.back-btn:hover::after,
+.add-record-btn:hover::before,
+.add-record-btn:hover::after,
+.table-action:hover::before,
+.table-action:hover::after,
+.theme-btn:hover::before,
+.theme-btn:hover::after,
+.popup-close:hover::before,
+.popup-close:hover::after {
+    opacity: 1;
+    top: 8%;
+    bottom: 8%;
+}
+
+/* Move lights outward */
+.primary-btn:hover::before,
+.secondary-btn:hover::before,
+.top-btn:hover::before,
+.back-btn:hover::before,
+.add-record-btn:hover::before,
+.table-action:hover::before,
+.theme-btn:hover::before,
+.popup-close:hover::before {
+    transform: translateX(0) scaleY(1);
+}
+
+.primary-btn:hover::after,
+.secondary-btn:hover::after,
+.top-btn:hover::after,
+.back-btn:hover::after,
+.add-record-btn:hover::after,
+.table-action:hover::after,
+.theme-btn:hover::after,
+.popup-close:hover::after {
+    transform: translateX(0) scaleY(1);
+}
+
+/* Small pulsing neon animation while hovering */
+@keyframes sideNeonPulse {
+    0%, 100% {
+        filter: blur(.2px);
+        opacity: .85;
+    }
+    50% {
+        filter: blur(1px);
+        opacity: 1;
+    }
+}
+
+.primary-btn:hover::before,
+.primary-btn:hover::after,
+.secondary-btn:hover::before,
+.secondary-btn:hover::after,
+.top-btn:hover::before,
+.top-btn:hover::after,
+.back-btn:hover::before,
+.back-btn:hover::after,
+.add-record-btn:hover::before,
+.add-record-btn:hover::after,
+.table-action:hover::before,
+.table-action:hover::after,
+.theme-btn:hover::before,
+.theme-btn:hover::after,
+.popup-close:hover::before,
+.popup-close:hover::after {
+    animation: sideNeonPulse 1.15s ease-in-out infinite;
+}
+
+/* Click */
+
+.primary-btn:active,
+.secondary-btn:active,
+.top-btn:active,
+.back-btn:active,
+.add-record-btn:active,
+.table-action:active,
+.theme-btn:active,
+.popup-close:active {
+
+    transform:
+        translateY(-1px)
+        scale(0.98);
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+#loginPage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 30px;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(3,11,22,0.70),
+            rgba(3,11,22,0.84)
+        ),
+        url("login-bg.jpg") center/cover no-repeat;
+}
+
+.login-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            transparent 0%,
+            rgba(0,0,0,0.42) 75%
+        );
+    pointer-events: none;
+}
+
+.login-box {
+    position: relative;
+    width: min(430px, 94vw);
+    padding: 38px;
+    border-radius: 28px;
+
+    background: rgba(7, 20, 36, 0.76);
+
+    border: 1px solid rgba(130,205,255,0.18);
+
+    box-shadow:
+        0 30px 90px rgba(0,0,0,0.55),
+        0 0 50px rgba(0,140,255,0.08);
+
+    backdrop-filter: blur(20px);
+
+    animation: loginFloat 1s ease forwards;
+
+    z-index: 3;
+}
+
+.login-box h1 {
+    text-align: center;
+    font-size: 29px;
+    margin-bottom: 8px;
+}
+
+.login-box .subtitle {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 30px;
+}
+
+.logo-circle {
+    width: 82px;
+    height: 82px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 39px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    box-shadow:
+        0 0 35px
+        color-mix(
+            in srgb,
+            var(--primary) 35%,
+            transparent
+        );
+}
+
+.field {
+    margin-bottom: 18px;
+}
+
+.field label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+}
+
+.password-wrap {
+    position: relative;
+}
+
+.password-wrap input {
+    padding-right: 48px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 18px;
+}
+
+input,
+select {
+    width: 100%;
+    border: 1px solid var(--border);
+    outline: none;
+    color: white;
+    background: rgba(255,255,255,0.06);
+    padding: 13px 14px;
+    border-radius: 13px;
+    transition: 0.25s ease;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        color-mix(
+            in srgb,
+            var(--primary) 12%,
+            transparent
+        );
+}
+
+select option {
+    background: #0d1b2d;
+    color: white;
+}
+
+.primary-btn {
+    width: 100%;
+    border: 0;
+    padding: 14px;
+    border-radius: 14px;
+    color: white;
+    font-weight: 800;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    box-shadow:
+        0 10px 30px
+        color-mix(
+            in srgb,
+            var(--primary) 22%,
+            transparent
+        );
+}
+
+.switch-login {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.switch-login button {
+    border: 0;
+    background: none;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   POPUP
+========================================================= */
+
+.popup {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+
+    background: rgba(0,0,0,0.55);
+
+    backdrop-filter: blur(7px);
+}
+
+.popup-box {
+    position: relative;
+    width: min(420px, 90vw);
+    padding: 35px;
+    text-align: center;
+    border-radius: 25px;
+
+    background: rgba(35, 8, 18, 0.95);
+
+    border: 1px solid rgba(255,70,100,0.35);
+
+    box-shadow:
+        0 0 40px rgba(255,0,50,0.20),
+        0 25px 80px rgba(0,0,0,0.55);
+
+    overflow: hidden;
+}
+
+.popup-box::before,
+.popup-box::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 7px;
+    background: #ff3159;
+
+    box-shadow:
+        0 0 15px #ff3159,
+        0 0 35px #ff3159,
+        0 0 65px rgba(255,49,89,0.8);
+}
+
+.popup-box::before {
+    left: 0;
+}
+
+.popup-box::after {
+    right: 0;
+}
+
+.popup-box h2 {
+    color: #ff5a78;
+    margin-bottom: 10px;
+}
+
+.popup-box p {
+    color: #ffd5dd;
+    margin-bottom: 22px;
+    line-height: 1.6;
+}
+
+.popup-close {
+    border: 0;
+    border-radius: 12px;
+    padding: 11px 25px;
+    color: white;
+    font-weight: 700;
+    background: #d82d50;
+}
+
+
+/* =========================================================
+   MAIN APP
+========================================================= */
+
+#mainApp {
+    min-height: 100vh;
+    padding: 22px;
+}
+
+.topbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    box-shadow:
+        0 10px 30px
+        color-mix(
+            in srgb,
+            var(--primary) 22%,
+            transparent
+        );
+}
+
+.brand h2 {
+    font-size: 19px;
+}
+
+.brand span {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.top-actions {
+    display: flex;
+    gap: 9px;
+}
+
+.top-btn {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.07);
+    color: white;
+    padding: 10px 14px;
+}
+
+.logout-btn:hover {
+    border-color: rgba(255,80,110,0.4);
+    color: #ff8298;
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+#welcomeScreen {
+    min-height: calc(100vh - 130px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-title {
+    text-align: center;
+    margin-bottom: 42px;
+}
+
+.welcome-title h1 {
+    font-size: clamp(30px, 5vw, 55px);
+    margin-bottom: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            white,
+            var(--accent)
+        );
+
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.welcome-title p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.menu-grid {
+    width: min(1050px, 100%);
+
+    display: grid;
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+.menu-card {
+    min-height: 310px;
+    border-radius: 28px;
+
+    border: 1px solid var(--border);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.10),
+            rgba(255,255,255,0.025)
+        ),
+        var(--card);
+
+    box-shadow: var(--shadow);
+
+    backdrop-filter: blur(18px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 25px;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.menu-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    opacity: 0.07;
+
+    filter: blur(25px);
+
+    top: -60px;
+    right: -50px;
+}
+
+.menu-card:hover {
+    transform:
+        translateY(-12px)
+        scale(1.07);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--primary) 55%,
+            transparent
+        );
+
+    box-shadow:
+        var(--shadow),
+        0 0 30px
+        color-mix(
+            in srgb,
+            var(--primary) 22%,
+            transparent
+        ),
+        0 0 70px
+        color-mix(
+            in srgb,
+            var(--primary) 10%,
+            transparent
+        );
+
+}
+
+.menu-icon {
+    width: 95px;
+    height: 95px;
+    border-radius: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 43px;
+
+    margin-bottom: 25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    box-shadow:
+        0 15px 40px
+        color-mix(
+            in srgb,
+            var(--primary) 25%,
+            transparent
+        );
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.menu-card:hover .menu-icon {
+    transform:
+        scale(1.12)
+        rotate(-2deg);
+
+    box-shadow:
+        0 18px 50px
+        color-mix(
+            in srgb,
+            var(--primary) 40%,
+            transparent
+        );
+}
+
+.menu-card h3 {
+    font-size: 20px;
+    margin-bottom: 9px;
+}
+
+.menu-card p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content-section {
+    width: min(1150px, 100%);
+    margin: 0 auto;
+    animation: sectionIn 0.45s ease;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.section-title h1 {
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+
+.section-title p {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.back-btn {
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.07);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 12px;
+}
+
+
+/* =========================================================
+   PANELS
+========================================================= */
+
+.panel {
+    border-radius: 23px;
+
+    border: 1px solid var(--border);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.08),
+            rgba(255,255,255,0.025)
+        ),
+        var(--card);
+
+    box-shadow: var(--shadow);
+
+    backdrop-filter: blur(18px);
+
+    padding: 23px;
+}
+
+.panel-title {
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.panel-subtitle {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.summary-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    padding: 20px;
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.055);
+
+    border: 1px solid var(--border);
+
+    transition: 0.25s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-6px) scale(1.03);
+
+    box-shadow:
+        0 15px 35px
+        color-mix(
+            in srgb,
+            var(--primary) 15%,
+            transparent
+        );
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 900;
+    margin-top: 8px;
+}
+
+.stat-note {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 13px;
+
+    align-items: end;
+}
+
+.form-grid .field {
+    margin-bottom: 0;
+}
+
+.add-record-btn {
+    width: 100%;
+    padding: 13px;
+
+    border: 0;
+    border-radius: 13px;
+
+    color: white;
+    font-weight: 800;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrap {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
+}
+
+th,
+td {
+    padding: 13px 12px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.07);
+
+    text-align: left;
+
+    font-size: 12px;
+}
+
+th {
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+td {
+    color: #f2f7ff;
+}
+
+.table-action {
+    border: 1px solid var(--border);
+
+    background: rgba(255,255,255,0.06);
+
+    color: white;
+
+    padding: 7px 10px;
+
+    border-radius: 9px;
+
+    font-size: 11px;
+
+    margin-right: 5px;
+}
+
+.table-action.delete {
+    color: #ff8097;
+}
+
+.table-action.delete:hover {
+    background: rgba(255,70,100,0.12);
+    border-color: rgba(255,80,110,0.35);
+}
+
+
+/* =========================================================
+   TIER
+========================================================= */
+
+.tier-current {
+    text-align: center;
+
+    padding: 35px 20px;
+
+    border-radius: 20px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            color-mix(
+                in srgb,
+                var(--primary) 15%,
+                transparent
+            ),
+            transparent 65%
+        ),
+        rgba(255,255,255,0.04);
+
+    border: 1px solid var(--border);
+
+    margin-bottom: 20px;
+}
+
+.tier-number {
+    font-size: 65px;
+    font-weight: 900;
+
+    background:
+        linear-gradient(
+            135deg,
+            white,
+            var(--accent)
+        );
+
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.tier-rate {
+    font-size: 23px;
+    font-weight: 800;
+    margin-top: 3px;
+}
+
+.tier-range {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+.tier-table {
+    display: grid;
+    gap: 8px;
+}
+
+.tier-row {
+    display: grid;
+
+    grid-template-columns:
+        90px 1fr 120px;
+
+    gap: 12px;
+
+    align-items: center;
+
+    padding: 13px;
+
+    border-radius: 12px;
+
+    background: rgba(255,255,255,0.04);
+
+    border: 1px solid rgba(255,255,255,0.05);
+
+    font-size: 12px;
+
+    transition: 0.25s ease;
+}
+
+.tier-row:hover {
+    transform: translateX(5px);
+}
+
+.tier-row.active {
+    border-color:
+        color-mix(
+            in srgb,
+            var(--primary) 40%,
+            transparent
+        );
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 9%,
+            transparent
+        );
+
+    box-shadow:
+        0 0 20px
+        color-mix(
+            in srgb,
+            var(--primary) 8%,
+            transparent
+        );
+}
+
+.tier-row span:last-child {
+    text-align: right;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   USD RATE
+========================================================= */
+
+.rate-card {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.rate-main {
+    font-size: 52px;
+    font-weight: 900;
+    margin: 12px 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            white,
+            var(--accent)
+        );
+
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.rate-label {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.rate-date {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 8px;
+}
+
+.rate-error {
+    color: #ff8ba0;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.rate-actions {
+    margin-top: 20px;
+}
+
+
+/* =========================================================
+   USD HISTORY
+========================================================= */
+
+.rate-history-panel {
+    margin-top: 20px;
+}
+
+.rate-history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.rate-history-header h3 {
+    font-size: 18px;
+}
+
+.rate-history-header p {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.rate-history-list {
+    display: grid;
+    gap: 10px;
+}
+
+.rate-history-row {
+    display: grid;
+
+    grid-template-columns:
+        1.3fr 1fr 1fr 1fr;
+
+    gap: 12px;
+
+    align-items: center;
+
+    padding: 15px;
+
+    border-radius: 15px;
+
+    background: rgba(255,255,255,0.045);
+
+    border: 1px solid rgba(255,255,255,0.06);
+
+    transition: 0.25s ease;
+}
+
+.rate-history-row:hover {
+    transform: translateX(5px) scale(1.01);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--primary) 35%,
+            transparent
+        );
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 7%,
+            transparent
+        );
+}
+
+.rate-history-row.latest {
+    border-color:
+        color-mix(
+            in srgb,
+            var(--primary) 45%,
+            transparent
+        );
+
+    box-shadow:
+        0 0 25px
+        color-mix(
+            in srgb,
+            var(--primary) 9%,
+            transparent
+        );
+}
+
+.history-date {
+    font-weight: 800;
+}
+
+.history-day {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+.history-rate {
+    font-size: 17px;
+    font-weight: 900;
+}
+
+.history-change {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.history-change.up {
+    color: #43e6a4;
+}
+
+.history-change.down {
+    color: #ff7f98;
+}
+
+.history-source {
+    text-align: right;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.history-note {
+    margin-top: 15px;
+
+    padding: 14px;
+
+    border-radius: 13px;
+
+    background: rgba(255,190,70,0.07);
+
+    border: 1px solid rgba(255,200,80,0.14);
+
+    color: #ffe4a4;
+
+    font-size: 11px;
+
+    line-height: 1.6;
+
+    text-align: left;
+}
+
+
+/* =========================================================
+   RATE BAR CHART
+========================================================= */
+
+.rate-chart {
+    margin-top: 25px;
+
+    padding: 20px;
+
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.035);
+
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.rate-chart-title {
+    font-size: 13px;
+    margin-bottom: 20px;
+    color: var(--muted);
+}
+
+.chart-bars {
+    height: 220px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-around;
+
+    gap: 8px;
+
+    padding: 10px 5px 0;
+}
+
+.chart-bar-container {
+    height: 100%;
+
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    min-width: 30px;
+}
+
+.chart-bar {
+    width: 70%;
+
+    min-height: 15px;
+
+    border-radius:
+        9px 9px 3px 3px;
+
+    background:
+        linear-gradient(
+            to top,
+            var(--secondary),
+            var(--primary),
+            var(--accent)
+        );
+
+    box-shadow:
+        0 0 20px
+        color-mix(
+            in srgb,
+            var(--primary) 18%,
+            transparent
+        );
+
+    transition:
+        height 0.6s ease,
+        transform 0.25s ease;
+}
+
+.chart-bar:hover {
+    transform:
+        scaleX(1.15)
+        translateY(-5px);
+}
+
+.chart-value {
+    font-size: 9px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    white-space: nowrap;
+}
+
+.chart-date {
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 8px;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   SALARY
+========================================================= */
+
+.salary-input-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.salary-input-card {
+    padding: 20px;
+
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.055);
+
+    border: 1px solid var(--border);
+}
+
+.salary-input-card label {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.6px;
+
+    margin-bottom: 9px;
+}
+
+.salary-input-card input {
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.special-rate-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.special-rate {
+    padding: 20px;
+
+    border-radius: 18px;
+
+    border: 1px solid var(--border);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.08),
+            rgba(255,255,255,0.03)
+        );
+}
+
+.special-rate .special-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.special-rate .special-name {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.special-rate .special-value {
+    margin-top: 5px;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.salary-tier-banner {
+    padding: 17px 20px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            color-mix(
+                in srgb,
+                var(--primary) 12%,
+                transparent
+            ),
+            rgba(255,255,255,0.04)
+        );
+
+    border: 1px solid var(--border);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.salary-tier-banner .left strong {
+    display: block;
+    font-size: 18px;
+}
+
+.salary-tier-banner .left span {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.salary-tier-rate {
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.salary-breakdown {
+    display: grid;
+    gap: 9px;
+}
+
+.salary-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+
+    padding: 13px 15px;
+
+    border-radius: 12px;
+
+    background: rgba(255,255,255,0.04);
+}
+
+.salary-line .label {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.salary-line .amount {
+    font-weight: 800;
+}
+
+.salary-line.total {
+    margin-top: 7px;
+
+    padding: 17px 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            color-mix(
+                in srgb,
+                var(--primary) 14%,
+                transparent
+            ),
+            rgba(255,255,255,0.05)
+        );
+
+    border: 1px solid var(--border);
+}
+
+.salary-line.total .label {
+    color: white;
+    font-weight: 800;
+}
+
+.salary-line.total .amount {
+    font-size: 21px;
+}
+
+.salary-result {
+    margin-top: 20px;
+
+    padding: 28px;
+
+    border-radius: 22px;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            color-mix(
+                in srgb,
+                var(--primary) 16%,
+                transparent
+            ),
+            transparent 65%
+        ),
+        rgba(255,255,255,0.04);
+
+    border: 1px solid var(--border);
+}
+
+.salary-result-label {
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.salary-result-value {
+    font-size: clamp(35px, 6vw, 58px);
+    font-weight: 950;
+    margin-top: 7px;
+
+    background:
+        linear-gradient(
+            135deg,
+            white,
+            var(--accent)
+        );
+
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.salary-result-sub {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+
+/* =========================================================
+   CUTOFF
+========================================================= */
+
+.salary-schedule {
+    margin-top: 22px;
+
+    padding: 24px;
+
+    border-radius: 22px;
+
+    border: 1px solid var(--border);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.09),
+            rgba(255,255,255,0.035)
+        ),
+        var(--card);
+
+    box-shadow: var(--shadow);
+}
+
+.schedule-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.schedule-heading-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    font-size: 21px;
+}
+
+.schedule-heading h3 {
+    font-size: 17px;
+}
+
+.schedule-description {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+.schedule-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 13px;
+}
+
+.schedule-item {
+    padding: 18px;
+
+    border-radius: 15px;
+
+    background: rgba(255,255,255,0.045);
+
+    border: 1px solid rgba(255,255,255,0.07);
+}
+
+.schedule-label {
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+.schedule-value {
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 850;
+}
+
+.schedule-note {
+    margin-top: 16px;
+
+    padding: 15px;
+
+    border-radius: 13px;
+
+    background: rgba(255,190,70,0.075);
+
+    border: 1px solid rgba(255,200,80,0.15);
+
+    color: #ffe4a4;
+
+    font-size: 11px;
+
+    line-height: 1.7;
+}
+
+.salary-note {
+    margin-top: 20px;
+
+    padding: 15px;
+
+    border-radius: 13px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    line-height: 1.7;
+
+    background: rgba(255,255,255,0.035);
+
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-grid {
+    display: grid;
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+}
+
+.profile-user {
+    text-align: center;
+    padding: 35px;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50%;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 45px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    box-shadow:
+        0 15px 40px
+        color-mix(
+            in srgb,
+            var(--primary) 20%,
+            transparent
+        );
+}
+
+.profile-user h2 {
+    font-size: 23px;
+}
+
+.profile-user p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.theme-options {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+}
+
+.theme-btn {
+    min-height: 75px;
+
+    border-radius: 14px;
+
+    border: 1px solid var(--border);
+
+    color: white;
+
+    font-weight: 700;
+}
+
+.theme-ocean-btn { background: linear-gradient(135deg,#02111f,#0ccfff,#1264ff); }
+
+.theme-purple-btn { background: linear-gradient(135deg,#09051d,#674dff,#a98cff); }
+
+.theme-emerald-btn { background: linear-gradient(135deg,#021817,#00a99c,#23e7c5); }
+
+.theme-rose-btn { background: linear-gradient(135deg,#08091e,#438dff,#9a64ff); }
+
+.theme-sunset-btn { background: linear-gradient(135deg,#02101e,#087fb5,#35dfff); }
+
+.theme-midnight-btn { background: linear-gradient(135deg,#01030b,#253cff,#7289ff); }
+
+.theme-btn.active {
+    border: 2px solid white;
+
+    box-shadow:
+        0 0 22px rgba(255,255,255,0.15);
+}
+
+
+/* =========================================================
+   PROFILE ACCOUNT SETTINGS
+========================================================= */
+
+.profile-account-actions {
+    display: grid;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.profile-action-btn {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 13px;
+    font-weight: 800;
+}
+
+.secondary-btn {
+    width: 100%;
+    border: 1px solid var(--border);
+    padding: 13px;
+    border-radius: 14px;
+    color: white;
+    font-weight: 800;
+    background: rgba(255,255,255,0.07);
+}
+
+.profile-edit-panel {
+    margin-top: 20px;
+    animation: sectionIn 0.35s ease;
+}
+
+.profile-edit-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.profile-edit-close {
+    width: auto;
+    padding: 9px 13px;
+    flex-shrink: 0;
+}
+
+.profile-edit-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 13px;
+    align-items: end;
+}
+
+.profile-edit-form .field {
+    margin-bottom: 0;
+}
+
+.profile-edit-form .primary-btn {
+    width: auto;
+    min-width: 190px;
+}
+
+#changePasswordForm {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+#changePasswordForm .primary-btn {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 700px) {
+    .profile-edit-form,
+    #changePasswordForm {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-edit-form .primary-btn {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+    position: fixed;
+
+    right: 22px;
+    bottom: 22px;
+
+    z-index: 999;
+
+    max-width: 330px;
+
+    padding: 14px 17px;
+
+    border-radius: 14px;
+
+    background: rgba(8,18,31,0.94);
+
+    border: 1px solid var(--border);
+
+    box-shadow: var(--shadow);
+
+    color: white;
+
+    font-size: 12px;
+
+    transform: translateY(30px);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: 0.3s ease;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes loginFloat {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+@keyframes sectionIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .menu-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .summary-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .form-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .salary-input-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    #mainApp {
+        padding: 14px;
+    }
+
+    .topbar {
+        align-items: flex-start;
+    }
+
+    .brand h2 {
+        font-size: 15px;
+    }
+
+    .top-actions {
+        flex-direction: column;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-card {
+        min-height: 250px;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .schedule-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .special-rate-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .salary-tier-banner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .theme-options {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .rate-history-row {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .history-source {
+        text-align: left;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+
+    }
+
+}
+
+
+/* =========================================================
+   PREMIUM NEON GLASS UPGRADE — VISUAL ONLY
+   Existing content and functionality are intentionally preserved.
+========================================================= */
+
+:root {
+    --ease-premium: cubic-bezier(.16, 1, .3, 1);
+    --ease-soft: cubic-bezier(.22, .61, .36, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    isolation: isolate;
+}
+
+/* Ambient animated light */
+body::after {
+    content: "";
+    position: fixed;
+    inset: -20%;
+    pointer-events: none;
+    z-index: -2;
+    background:
+        radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--primary) 16%, transparent), transparent 22%),
+        radial-gradient(circle at 78% 68%, color-mix(in srgb, var(--secondary) 14%, transparent), transparent 25%),
+        radial-gradient(circle at 50% 110%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 22%);
+    filter: blur(30px);
+    animation: ambientDrift 18s ease-in-out infinite alternate;
+}
+
+@keyframes ambientDrift {
+    0% { transform: translate3d(-2%, -1%, 0) scale(1); }
+    50% { transform: translate3d(2%, 1%, 0) scale(1.04); }
+    100% { transform: translate3d(-1%, 2%, 0) scale(1.02); }
+}
+
+/* Extra cool background layers: aurora ribbons + drifting star field */
+body::after {
+    background:
+        radial-gradient(circle at 12% 18%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 17%),
+        radial-gradient(circle at 88% 22%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 16%),
+        radial-gradient(circle at 72% 82%, color-mix(in srgb, var(--secondary) 18%, transparent), transparent 20%),
+        radial-gradient(circle at 28% 88%, color-mix(in srgb, var(--primary) 10%, transparent), transparent 18%),
+        repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,.045) 0 1px, transparent 1px 4px);
+    filter: blur(22px) saturate(1.18);
+    opacity: .85;
+    animation: coolAurora 22s ease-in-out infinite alternate;
+}
+
+@keyframes coolAurora {
+    0% { transform: translate3d(-3%, 1%, 0) rotate(0deg) scale(1); }
+    33% { transform: translate3d(2%, -2%, 0) rotate(2deg) scale(1.05); }
+    66% { transform: translate3d(-1%, 3%, 0) rotate(-2deg) scale(1.02); }
+    100% { transform: translate3d(3%, -1%, 0) rotate(1deg) scale(1.07); }
+}
+
+/* Moving scan lines for a subtle futuristic feel */
+#mainApp::after {
+    content: "";
+    position: fixed;
+    inset: -50%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: .16;
+    background: repeating-linear-gradient(
+        115deg,
+        transparent 0 70px,
+        color-mix(in srgb, var(--accent) 8%, transparent) 71px,
+        transparent 73px 145px
+    );
+    animation: scanDrift 28s linear infinite;
+}
+
+@keyframes scanDrift {
+    from { transform: translate3d(-5%, -5%, 0); }
+    to { transform: translate3d(5%, 5%, 0); }
+}
+
+/* Make the technical grid gently breathe */
+#mainApp::before {
+    animation: gridBreath 8s ease-in-out infinite alternate;
+}
+
+@keyframes gridBreath {
+    from { opacity: .09; transform: scale(1); }
+    to { opacity: .20; transform: scale(1.015); }
+}
+
+/* Subtle technical grid */
+#mainApp::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    opacity: .14;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+}
+
+/* Premium topbar */
+.topbar {
+    border-color: color-mix(in srgb, var(--primary) 22%, transparent) !important;
+    box-shadow: 0 14px 45px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.06) !important;
+    animation: topbarIn .7s var(--ease-premium) both;
+}
+
+@keyframes topbarIn {
+    from { opacity: 0; transform: translateY(-18px); filter: blur(5px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Brand icon */
+.brand-icon,
+.logo-circle {
+    box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--primary) 28%, transparent),
+        0 0 28px color-mix(in srgb, var(--primary) 28%, transparent),
+        inset 0 1px 0 rgba(255,255,255,.18) !important;
+    animation: iconBreath 3s ease-in-out infinite;
+}
+
+@keyframes iconBreath {
+    0%,100% { transform: translateZ(0) scale(1); }
+    50% { transform: translateZ(0) scale(1.035); }
+}
+
+/* Welcome title */
+.welcome-title {
+    animation: welcomeIn .9s var(--ease-premium) both;
+}
+
+.welcome-title h1 {
+    text-shadow: 0 0 28px color-mix(in srgb, var(--primary) 22%, transparent);
+}
+
+@keyframes welcomeIn {
+    from { opacity: 0; transform: translateY(24px); filter: blur(6px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Main dashboard cards */
+.menu-card {
+    overflow: hidden !important;
+    transform-style: preserve-3d;
+    will-change: transform;
+    box-shadow:
+        0 18px 50px rgba(0,0,0,.24),
+        inset 0 1px 0 rgba(255,255,255,.08),
+        inset 0 -1px 0 rgba(255,255,255,.025) !important;
+    animation: cardReveal .75s var(--ease-premium) both;
+}
+
+.menu-card:nth-child(1) { animation-delay: .08s; }
+.menu-card:nth-child(2) { animation-delay: .16s; }
+.menu-card:nth-child(3) { animation-delay: .24s; }
+.menu-card:nth-child(4) { animation-delay: .32s; }
+
+.menu-card::before {
+    content: "";
+    position: absolute;
+    inset: -80% -20%;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 42%, rgba(255,255,255,.12) 50%, transparent 58%);
+    transform: translateX(-70%) rotate(8deg);
+    opacity: 0;
+    transition: transform .8s var(--ease-premium), opacity .35s ease;
+}
+
+.menu-card:hover::before {
+    transform: translateX(70%) rotate(8deg);
+    opacity: 1;
+}
+
+.menu-card:hover {
+    transform: translateY(-10px) rotateX(1.2deg) rotateY(-1.2deg) scale(1.018) !important;
+    border-color: color-mix(in srgb, var(--primary) 48%, transparent) !important;
+    box-shadow:
+        0 28px 70px rgba(0,0,0,.34),
+        0 0 35px color-mix(in srgb, var(--primary) 13%, transparent),
+        inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+
+@keyframes cardReveal {
+    from { opacity: 0; transform: translateY(25px) scale(.97); filter: blur(4px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.menu-icon {
+    transition: transform .5s var(--ease-premium), filter .5s ease;
+}
+
+.menu-card:hover .menu-icon {
+    transform: translateY(-3px) scale(1.12) rotate(-3deg);
+    filter: drop-shadow(0 0 13px color-mix(in srgb, var(--primary) 40%, transparent));
+}
+
+/* All panels */
+.panel,
+.salary-result,
+.salary-schedule,
+.salary-note,
+.salary-input-card,
+.special-rate,
+.schedule-item,
+.profile-card,
+.history-card,
+.rate-card {
+    box-shadow:
+        0 18px 55px rgba(0,0,0,.20),
+        inset 0 1px 0 rgba(255,255,255,.055) !important;
+}
+
+.panel,
+.content-section .panel {
+    animation: panelIn .6s var(--ease-premium) both;
+}
+
+@keyframes panelIn {
+    from { opacity: 0; transform: translateY(18px); filter: blur(3px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Inputs */
+input,
+select,
+textarea {
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease,
+        background .25s ease,
+        transform .25s var(--ease-soft) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--primary) 70%, white 5%) !important;
+    box-shadow:
+        0 0 0 3px color-mix(in srgb, var(--primary) 12%, transparent),
+        0 0 24px color-mix(in srgb, var(--primary) 13%, transparent) !important;
+}
+
+/* Premium buttons */
+.primary-btn:hover,
+.secondary-btn:hover,
+.top-btn:hover,
+.back-btn:hover,
+.add-record-btn:hover,
+.theme-btn:hover,
+.popup-close:hover {
+    filter: brightness(1.08);
+}
+
+.primary-btn:active,
+.secondary-btn:active,
+.top-btn:active,
+.back-btn:active,
+.add-record-btn:active,
+.theme-btn:active,
+.popup-close:active {
+    transform: translateY(1px) scale(.975) !important;
+}
+
+/* Section headers */
+.section-header {
+    animation: sectionHeaderIn .55s var(--ease-premium) both;
+}
+
+@keyframes sectionHeaderIn {
+    from { opacity: 0; transform: translateX(-16px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Salary result emphasis */
+.salary-result {
+    position: relative;
+    overflow: hidden;
+}
+
+.salary-result::before {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    right: -100px;
+    top: -120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--primary) 20%, transparent), transparent 68%);
+    pointer-events: none;
+    animation: resultGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes resultGlow {
+    from { transform: scale(.85); opacity: .55; }
+    to { transform: scale(1.15); opacity: 1; }
+}
+
+.salary-result-value {
+    text-shadow:
+        0 0 22px color-mix(in srgb, var(--primary) 25%, transparent),
+        0 0 50px color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+/* Rate display */
+.rate-main {
+    text-shadow: 0 0 28px color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+/* Table row polish */
+tbody tr {
+    transition: transform .25s var(--ease-soft), background .25s ease, box-shadow .25s ease;
+}
+
+tbody tr:hover {
+    transform: translateX(4px);
+    box-shadow: inset 3px 0 0 var(--primary), 0 8px 25px rgba(0,0,0,.12);
+}
+
+/* Popup */
+.popup:not(.hidden) .popup-box {
+    animation: popupPremium .42s var(--ease-premium) both;
+}
+
+@keyframes popupPremium {
+    from { opacity: 0; transform: translateY(20px) scale(.92); filter: blur(7px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+/* Toast */
+.toast.show {
+    animation: toastPremium .45s var(--ease-premium) both;
+}
+
+@keyframes toastPremium {
+    from { opacity: 0; transform: translateY(18px) scale(.94); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Ripple created by JS */
+.ui-ripple {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    background: color-mix(in srgb, var(--accent) 32%, white 4%);
+    transform: translate(-50%, -50%) scale(0);
+    animation: uiRipple .65s ease-out forwards;
+}
+
+@keyframes uiRipple {
+    to { transform: translate(-50%, -50%) scale(22); opacity: 0; }
+}
+
+/* Navigation transition layer */
+#pageTransition {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--primary) 18%, transparent), rgba(3,8,18,.88) 58%);
+    backdrop-filter: blur(8px);
+    transition: opacity .32s ease;
+}
+
+#pageTransition.active { opacity: 1; }
+
+/* Login polish */
+#loginPage {
+    position: relative;
+    isolation: isolate;
+}
+
+#loginPage::after {
+    content: "";
+    position: absolute;
+    inset: -25%;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--primary) 17%, transparent), transparent 18%),
+        radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--secondary) 15%, transparent), transparent 20%),
+        repeating-linear-gradient(125deg, transparent 0 90px, rgba(130,220,255,.035) 91px, transparent 93px);
+    filter: blur(10px);
+    animation: loginCoolDrift 16s ease-in-out infinite alternate;
+}
+
+@keyframes loginCoolDrift {
+    from { transform: translate3d(-2%, 1%, 0) scale(1); }
+    to { transform: translate3d(2%, -1%, 0) scale(1.06); }
+}
+
+#loginPage::before {
+    content: "";
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--primary) 12%, transparent), transparent 68%);
+    filter: blur(20px);
+    animation: loginAura 6s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes loginAura {
+    from { transform: translate(-50%, -50%) scale(.88); opacity: .55; }
+    to { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+}
+
+.login-box {
+    box-shadow:
+        0 30px 90px rgba(0,0,0,.48),
+        0 0 55px color-mix(in srgb, var(--primary) 10%, transparent),
+        inset 0 1px 0 rgba(255,255,255,.10) !important;
+}
+
+/* Profile/theme cards */
+.theme-btn {
+    overflow: hidden;
+}
+
+.theme-btn::after {
+    transition: transform .6s var(--ease-premium), opacity .4s ease !important;
+}
+
+/* Mobile: reduce heavy 3D movement */
+@media (max-width: 650px) {
+    .menu-card:hover {
+        transform: translateY(-5px) scale(1.01) !important;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body::after,
+    #mainApp::after,
+    #mainApp::before,
+    #loginPage::after,
+    .brand-icon,
+    .logo-circle,
+    .salary-result::before {
+        animation: none !important;
+    }
+}
+
+</style>
+
+<style id="usd-premium-buttons">
+/* =========================================================
+   USD RATE ACTION BUTTONS — PREMIUM MATCHED DESIGN
+   Keeps the original text and JavaScript functions intact.
+========================================================= */
+.rate-actions {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top:22px;
+}
+
+.rate-history-header .usd-action-btn {
+    flex-shrink:0;
+}
+
+.usd-action-btn {
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+    min-height:48px;
+    padding:13px 20px;
+    border:1px solid rgba(116,210,255,.30);
+    border-radius:15px;
+    background:linear-gradient(135deg, rgba(15,31,58,.94), rgba(17,51,82,.78));
+    color:#eef9ff;
+    font-weight:800;
+    letter-spacing:.15px;
+    box-shadow:
+        0 10px 28px rgba(0,0,0,.24),
+        inset 0 1px 0 rgba(255,255,255,.09),
+        0 0 0 rgba(72,201,255,0);
+    transition:transform .28s cubic-bezier(.16,1,.3,1),
+               box-shadow .28s ease,
+               border-color .28s ease,
+               background .28s ease;
+}
+
+.usd-action-btn::before {
+    content:"";
+    position:absolute;
+    inset:-2px;
+    z-index:-2;
+    border-radius:inherit;
+    background:linear-gradient(115deg, transparent 20%, rgba(99,225,255,.55), rgba(255,255,255,.32), transparent 72%);
+    opacity:0;
+    transform:translateX(-120%);
+    transition:opacity .2s ease, transform .7s cubic-bezier(.16,1,.3,1);
+}
+
+.usd-action-btn::after {
+    content:"";
+    position:absolute;
+    left:10px;
+    right:10px;
+    bottom:4px;
+    height:2px;
+    border-radius:99px;
+    background:linear-gradient(90deg, transparent, rgba(74,211,255,.95), transparent);
+    opacity:.35;
+    filter:blur(.5px);
+    transition:opacity .28s ease, transform .28s ease;
+}
+
+.usd-action-btn:hover {
+    transform:translateY(-3px) scale(1.025);
+    border-color:rgba(105,220,255,.72);
+    background:linear-gradient(135deg, rgba(20,42,76,.98), rgba(20,70,103,.88));
+    box-shadow:
+        0 15px 34px rgba(0,0,0,.30),
+        0 0 24px rgba(48,197,255,.18),
+        0 0 48px rgba(48,197,255,.08),
+        inset 0 1px 0 rgba(255,255,255,.13);
+}
+
+.usd-action-btn:hover::before {
+    opacity:1;
+    transform:translateX(120%);
+}
+
+.usd-action-btn:hover::after {
+    opacity:1;
+    transform:scaleX(1.08);
+}
+
+.usd-action-btn:active {
+    transform:translateY(-1px) scale(.985);
+    box-shadow:0 7px 18px rgba(0,0,0,.25), inset 0 2px 5px rgba(0,0,0,.22);
+}
+
+.usd-refresh-btn {
+    --usd-accent:rgba(54,207,255,.95);
+}
+
+.usd-reset-btn {
+    --usd-accent:rgba(160,190,255,.92);
+    border-color:rgba(145,174,235,.28);
+}
+
+.usd-reset-btn:hover {
+    border-color:rgba(167,195,255,.62);
+    box-shadow:
+        0 15px 34px rgba(0,0,0,.30),
+        0 0 24px rgba(123,155,255,.16),
+        0 0 48px rgba(123,155,255,.07),
+        inset 0 1px 0 rgba(255,255,255,.13);
+}
+
+.usd-action-btn:focus-visible {
+    outline:none;
+    box-shadow:
+        0 0 0 3px rgba(255,255,255,.08),
+        0 0 0 6px rgba(67,205,255,.24),
+        0 12px 30px rgba(0,0,0,.25);
+}
+
+@media (max-width:640px) {
+    .rate-actions { width:100%; }
+    .rate-actions .usd-action-btn { width:100%; }
+    .rate-history-header .usd-action-btn { width:auto; }
+}
+
+@media (prefers-reduced-motion:reduce) {
+    .usd-action-btn,
+    .usd-action-btn::before,
+    .usd-action-btn::after {
+        transition:none !important;
+    }
+}
+</style>
+
+
+<style id="usd-button-layout-fix">
+/* =========================================================
+   USD BUTTON LAYOUT FIX
+   Keeps both original buttons inside their panels at all sizes.
+========================================================= */
+.rate-history-header {
+    display:grid !important;
+    grid-template-columns:minmax(0, 1fr) auto !important;
+    align-items:center !important;
+    column-gap:18px !important;
+    row-gap:14px !important;
+    width:100%;
+}
+
+.rate-history-header > div:first-child {
+    min-width:0;
+}
+
+.rate-history-header h3,
+.rate-history-header p {
+    max-width:100%;
+    overflow-wrap:anywhere;
+}
+
+.rate-history-header .usd-reset-btn {
+    width:auto !important;
+    max-width:100%;
+    min-width:148px;
+    white-space:nowrap;
+    justify-self:end;
+    margin:0 !important;
+}
+
+.rate-actions {
+    width:100%;
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    padding:0 2px;
+}
+
+.rate-actions .usd-refresh-btn {
+    width:min(100%, 260px);
+    max-width:100%;
+    white-space:nowrap;
+    margin:0 !important;
+}
+
+.usd-action-btn {
+    box-sizing:border-box !important;
+    max-width:100%;
+}
+
+@media (max-width:760px) {
+    .rate-history-header {
+        grid-template-columns:1fr !important;
+        justify-items:stretch !important;
+    }
+
+    .rate-history-header .usd-reset-btn {
+        width:100% !important;
+        min-width:0;
+        justify-self:stretch;
+    }
+
+    .rate-actions .usd-refresh-btn {
+        width:100%;
+        max-width:360px;
+    }
+}
+
+@media (max-width:420px) {
+    .rate-history-header {
+        row-gap:12px !important;
+    }
+
+    .rate-history-header .usd-reset-btn,
+    .rate-actions .usd-refresh-btn {
+        min-height:46px;
+        padding:12px 14px;
+        font-size:13px;
+    }
+}
+</style>
+
+
+<style id="personalization-motion">
+/* Ambient, slow-moving aurora and floating light particles on the home screen */
+#welcomeScreen { position:relative; isolation:isolate; overflow:hidden; border-radius:30px; padding:34px 18px; }
+#welcomeScreen::before, #welcomeScreen::after { content:""; position:absolute; pointer-events:none; z-index:-1; border-radius:50%; filter:blur(38px); opacity:.45; }
+#welcomeScreen::before { width:340px;height:340px;left:-100px;top:8%;background:radial-gradient(circle,var(--primary),transparent 68%);animation:homeAuroraA 15s ease-in-out infinite alternate; }
+#welcomeScreen::after { width:420px;height:420px;right:-100px;bottom:0;background:radial-gradient(circle,var(--secondary),transparent 68%);animation:homeAuroraB 19s ease-in-out infinite alternate; }
+@keyframes homeAuroraA { 0%{transform:translate3d(0,0,0) scale(.85)} 100%{transform:translate3d(120px,65px,0) scale(1.25)} }
+@keyframes homeAuroraB { 0%{transform:translate3d(0,0,0) scale(1)} 100%{transform:translate3d(-100px,-80px,0) scale(.82)} }
+.welcome-title h1 { animation:welcomeRise .8s cubic-bezier(.2,.8,.2,1) both; text-shadow:0 0 32px color-mix(in srgb,var(--primary) 20%,transparent); }
+.welcome-title p { animation:welcomeRise .9s .12s both; }
+.menu-card { position:relative; animation:menuFloatIn .7s cubic-bezier(.2,.8,.2,1) both; }
+.menu-card:nth-child(2){animation-delay:.08s}.menu-card:nth-child(3){animation-delay:.16s}.menu-card:nth-child(4){animation-delay:.24s}.menu-card:nth-child(5){animation-delay:.32s}.menu-card:nth-child(6){animation-delay:.4s}
+.menu-card::after { content:"";position:absolute;inset:-80% auto -80% -45%;width:35%;transform:rotate(18deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.11),transparent);transition:left .8s ease;pointer-events:none; }
+.menu-card:hover::after { left:130%; }
+@keyframes welcomeRise { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+@keyframes menuFloatIn { from{opacity:0;transform:translateY(24px) scale(.97)} to{opacity:1;transform:translateY(0) scale(1)} }
+.profile-avatar { overflow:hidden; position:relative; border:2px solid color-mix(in srgb,var(--accent) 70%,transparent); }
+.profile-avatar img { width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit; }
+.home-profile-photo { width:104px;height:104px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:42px;background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 30%,transparent),color-mix(in srgb,var(--secondary) 30%,transparent));border:3px solid color-mix(in srgb,var(--accent) 80%,white 10%);box-shadow:0 0 0 6px color-mix(in srgb,var(--primary) 10%,transparent),0 0 32px color-mix(in srgb,var(--primary) 35%,transparent);animation:homeAvatarIn .75s cubic-bezier(.2,.8,.2,1) both;position:relative;z-index:1;}
+.home-profile-photo img { width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit; }
+@keyframes homeAvatarIn { from{opacity:0;transform:translateY(12px) scale(.88)} to{opacity:1;transform:translateY(0) scale(1)} }
+.upload-control { display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:8px auto 12px;padding:11px 15px;border:1px solid var(--border);border-radius:13px;background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 25%,transparent),color-mix(in srgb,var(--secondary) 20%,transparent));color:white;font-size:12px;font-weight:800;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s; }
+.upload-control:hover { transform:translateY(-2px);border-color:var(--accent);box-shadow:0 0 22px color-mix(in srgb,var(--primary) 25%,transparent); }
+.file-input-hidden { position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;overflow:hidden!important;pointer-events:none!important; }
+.wallpaper-settings { margin-top:24px;padding-top:20px;border-top:1px solid var(--border); }
+.wallpaper-settings .upload-control { margin:12px 10px 10px 0; }
+.wallpaper-settings .secondary-btn { margin-top:5px; }
+body.custom-wallpaper { background-attachment:fixed!important;background-position:center!important;background-size:cover!important;background-repeat:no-repeat!important; }
+body.custom-wallpaper::before { background:linear-gradient(135deg,rgba(2,8,20,.16),rgba(5,10,25,.24))!important;z-index:-1!important; }
+@media(prefers-reduced-motion:reduce){#welcomeScreen::before,#welcomeScreen::after,.welcome-title h1,.welcome-title p,.menu-card{animation:none!important}.menu-card::after{display:none}}
+</style>
+
+</head>
+
+
+<body class="theme-ocean">
+
+
+<!-- =========================================================
+     LOGIN PAGE
+========================================================= -->
+
+<section id="loginPage">
+
+    <div class="login-overlay"></div>
+
+    <div class="login-box">
+
+        <div class="logo-circle">
+            📚
+        </div>
+
+        <h1>
+            LingoAce Teacher Record
+        </h1>
+
+        <p class="subtitle">
+            Manage your classes, tier, salary and records in one place.
+        </p>
+
+        <div id="loginForm">
+
+            <div class="field">
+
+                <label>
+                    Account Name
+                </label>
+
+                <input
+                    type="text"
+                    id="loginUsername"
+                    placeholder="Enter your account name"
+                    autocomplete="username"
+                >
+
+            </div>
+
+            <div class="field">
+
+                <label>
+                    Password
+                </label>
+
+                <div class="password-wrap">
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword('loginPassword', this)"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+            </div>
+
+            <button
+                class="primary-btn"
+                onclick="login()"
+            >
+                Login
+            </button>
+
+            <div class="switch-login">
+
+                Don't have an account?
+
+                <button onclick="showCreateAccount()">
+                    Create Account
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div id="createForm" class="hidden">
+
+            <div class="field">
+
+                <label>
+                    Account Name
+                </label>
+
+                <input
+                    type="text"
+                    id="createUsername"
+                    placeholder="Create your account name"
+                >
+
+            </div>
+
+            <div class="field">
+
+                <label>
+                    Password
+                </label>
+
+                <div class="password-wrap">
+
+                    <input
+                        type="password"
+                        id="createPassword"
+                        placeholder="Create your password"
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword('createPassword', this)"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="field">
+
+                <label>
+                    Confirm Password
+                </label>
+
+                <div class="password-wrap">
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm your password"
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword('confirmPassword', this)"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+            </div>
+
+            <button
+                class="primary-btn"
+                onclick="createAccount()"
+            >
+                Create Account
+            </button>
+
+            <div class="switch-login">
+
+                Already have an account?
+
+                <button onclick="showLogin()">
+                    Login
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     WRONG ACCOUNT POPUP
+========================================================= -->
+
+<div id="wrongPopup" class="popup hidden">
+
+    <div class="popup-box">
+
+        <h2>
+            WARNING! BOBO MALI!
+        </h2>
+
+        <p>
+            Ulyanin 😭<br>
+            Please check your account name and password.
+        </p>
+
+        <button
+            class="popup-close"
+            onclick="closeWrongPopup()"
+        >
+            Okay
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MAIN APP
+========================================================= -->
+
+<section id="mainApp" class="hidden">
+
+    <div class="topbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                📚
+            </div>
+
+            <div>
+
+                <h2>
+                    LA Record Sheet
+                </h2>
+
+                <span id="loggedUserDisplay"></span>
+
+            </div>
+
+        </div>
+
+        <div class="top-actions">
+
+            <button
+                class="top-btn"
+                onclick="openSection('profile')"
+            >
+                👤 Profile
+            </button>
+
+            <button
+                class="top-btn logout-btn"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- HOME -->
+
+    <div id="welcomeScreen">
+
+        <div class="welcome-title">
+
+            <div class="home-profile-photo" id="homeProfilePhoto" aria-label="Your profile photo">👤</div>
+
+            <h1 id="welcomeHeading">
+                Welcome back! 👋
+            </h1>
+
+            <p>
+                Choose what you want to view.
+            </p>
+
+        </div>
+
+        <div class="menu-grid">
+
+            <div
+                class="menu-card"
+                onclick="openSection('salary')"
+            >
+
+                <div class="menu-icon">
+                    💰
+                </div>
+
+                <h3>
+                    Estimated Salary
+                </h3>
+
+                <p>
+                    Calculate your estimated salary,
+                    deductions and earnings.
+                </p>
+
+            </div>
+
+
+            <div
+                class="menu-card"
+                onclick="openSection('rate')"
+            >
+
+                <div class="menu-icon">
+                    $
+                </div>
+
+                <h3>
+                    USD Rate
+                </h3>
+
+                <p>
+                    View the latest USD to PHP
+                    exchange rate and recent history.
+                </p>
+
+            </div>
+
+
+            <div
+                class="menu-card"
+                onclick="openSection('summary')"
+            >
+
+                <div class="menu-icon">
+                    📊
+                </div>
+
+                <h3>
+                    Record your daily class
+                </h3>
+
+                <p>
+                    View your classes, GP slots,
+                    no-shows and current tier.
+                </p>
+
+            </div>
+
+
+            <div
+                class="menu-card"
+                onclick="openSection('tier')"
+            >
+
+                <div class="menu-icon">
+                    🏆
+                </div>
+
+                <h3>
+                    Tier
+                </h3>
+
+                <p>
+                    Check your current tier and
+                    corresponding class rate.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SALARY -->
+
+    <section
+        id="salarySection"
+        class="content-section hidden"
+    >
+
+        <div class="section-header">
+
+            <div class="section-title">
+
+                <h1>
+                    💰 Salary Computation
+                </h1>
+
+                <p>
+                    Your estimated salary based on your current records.
+                </p>
+
+            </div>
+
+            <button
+                class="back-btn"
+                onclick="backHome()"
+            >
+                ← Back
+            </button>
+
+        </div>
+
+        <div class="panel">
+
+            <div class="panel-title">
+                Class Information
+            </div>
+
+            <div class="salary-input-grid">
+
+                <div class="salary-input-card">
+
+                    <label>
+                        Entered Classes
+                    </label>
+
+                    <input
+                        type="number"
+                        id="salaryEntered"
+                        min="0"
+                        value="0"
+                        oninput="calculateSalary()"
+                    >
+
+                </div>
+
+                <div class="salary-input-card">
+
+                    <label>
+                        GP Slots
+                    </label>
+
+                    <input
+                        type="number"
+                        id="salaryGP"
+                        min="0"
+                        value="0"
+                        oninput="calculateSalary()"
+                    >
+
+                </div>
+
+                <div class="salary-input-card">
+
+                    <label>
+                        Student No-Shows
+                    </label>
+
+                    <input
+                        type="number"
+                        id="salaryNoShow"
+                        min="0"
+                        value="0"
+                        oninput="calculateSalary()"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="special-rate-grid">
+
+                <div class="special-rate">
+
+                    <div class="special-icon">
+                        🎯
+                    </div>
+
+                    <div class="special-name">
+                        GP Slot Rate
+                    </div>
+
+                    <div class="special-value">
+                        ₱20
+                    </div>
+
+                </div>
+
+                <div class="special-rate">
+
+                    <div class="special-icon">
+                        🚫
+                    </div>
+
+                    <div class="special-name">
+                        Student No-Show Rate
+                    </div>
+
+                    <div class="special-value">
+                        ₱26
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="salary-tier-banner">
+
+                <div class="left">
+
+                    <strong id="salaryTierName">
+                        Tier 1
+                    </strong>
+
+                    <span id="salaryTierRange">
+                        0–30 entered classes
+                    </span>
+
+                </div>
+
+                <div
+                    class="salary-tier-rate"
+                    id="salaryTierRate"
+                >
+                    $0.85
+                </div>
+
+            </div>
+
+
+            <div class="salary-breakdown">
+
+                <div class="salary-line">
+
+                    <div class="label">
+                        Entered Class Pay
+                    </div>
+
+                    <div
+                        class="amount"
+                        id="enteredPayUSD"
+                    >
+                        $0.00
+                    </div>
+
+                </div>
+
+                <div class="salary-line">
+
+                    <div class="label">
+                        Entered Class Pay in PHP
+                    </div>
+
+                    <div
+                        class="amount"
+                        id="enteredPayPHP"
+                    >
+                        ₱0.00
+                    </div>
+
+                </div>
+
+                <div class="salary-line">
+
+                    <div class="label">
+                        GP Slot Pay
+                        <small>(₱20 each)</small>
+                    </div>
+
+                    <div
+                        class="amount"
+                        id="gpPayPHP"
+                    >
+                        ₱0.00
+                    </div>
+
+                </div>
+
+                <div class="salary-line">
+
+                    <div class="label">
+                        Student No-Show Pay
+                        <small>(₱26 each)</small>
+                    </div>
+
+                    <div
+                        class="amount"
+                        id="noShowPayPHP"
+                    >
+                        ₱0.00
+                    </div>
+
+                </div>
+
+                <div class="salary-line total">
+
+                    <div class="label">
+                        Gross Salary
+                    </div>
+
+                    <div
+                        class="amount"
+                        id="grossSalaryPHP"
+                    >
+                        ₱0.00
+                    </div>
+
+                </div>
+
+                <div class="salary-line">
+
+                    <div class="label">
+                        CO Fee (30%)
+                    </div>
+
+                    <div
+                        class="amount"
+                        id="coFeePHP"
+                    >
+                        ₱0.00
+                    </div>
+
+                </div>
+
+                <div class="salary-line total">
+
+                    <div class="label">
+                        Teacher Salary (70%)
+                    </div>
+
+                    <div
+                        class="amount"
+                        id="teacherSalaryPHP"
+                    >
+                        ₱0.00
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="salary-result">
+
+                <div class="salary-result-label">
+                    Estimated Teacher Salary
+                </div>
+
+                <div
+                    class="salary-result-value"
+                    id="salaryResult"
+                >
+                    ₱0.00
+                </div>
+
+                <div
+                    class="salary-result-sub"
+                    id="salaryResultSub"
+                >
+                    Based on the current USD/PHP rate
+                </div>
+
+            </div>
+
+
+            <div class="salary-schedule">
+
+                <div class="schedule-heading">
+
+                    <div class="schedule-heading-icon">
+                        📅
+                    </div>
+
+                    <h3>
+                        Cutoff & Salary Release
+                    </h3>
+
+                </div>
+
+                <p class="schedule-description">
+
+                    Your monthly cutoff is the last calendar day
+                    of the month. Processing starts on the 1st day
+                    of the following month, and the salary release
+                    is counted using 10 working days. Saturdays
+                    and Sundays are not included.
+
+                </p>
+
+                <div class="schedule-grid">
+
+                    <div class="schedule-item">
+
+                        <div class="schedule-label">
+                            Monthly Cutoff
+                        </div>
+
+                        <div
+                            class="schedule-value"
+                            id="salaryCutoffDate"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+                    <div class="schedule-item">
+
+                        <div class="schedule-label">
+                            Processing Starts
+                        </div>
+
+                        <div
+                            class="schedule-value"
+                            id="salaryProcessingStart"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+                    <div class="schedule-item">
+
+                        <div class="schedule-label">
+                            10th Working Day
+                        </div>
+
+                        <div
+                            class="schedule-value"
+                            id="salaryReleaseDate"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="schedule-note">
+
+                    ⚠️ <strong>Important:</strong>
+
+                    The salary displayed above is an estimate.
+                    The final salary may still change because
+                    the applicable USD/PHP exchange rate can be
+                    different when the salary is processed or
+                    released.
+
+                </div>
+
+            </div>
+
+
+            <div class="salary-note">
+
+                💡 <strong>How the calculation works:</strong>
+                <br><br>
+
+                Entered classes use your current tier's USD rate.
+                The USD amount is converted to PHP using the
+                current USD/PHP exchange rate.
+
+                <br><br>
+
+                GP Slots are fixed at <strong>₱20 each</strong>,
+                while Student No-Shows are fixed at
+                <strong>₱26 each</strong>.
+
+                These two amounts are already in Philippine pesos
+                and are therefore <strong>not converted using the
+                USD exchange rate</strong>.
+
+                <br><br>
+
+                After adding all earnings, the CO fee is calculated
+                at 30%, leaving 70% as the teacher salary.
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- USD RATE -->
+
+    <section
+        id="rateSection"
+        class="content-section hidden"
+    >
+
+        <div class="section-header">
+
+            <div class="section-title">
+
+                <h1>
+                    💵 USD / PHP Rate
+                </h1>
+
+                <p>
+                    Current exchange rate used for salary estimation.
+                </p>
+
+            </div>
+
+            <button
+                class="back-btn"
+                onclick="backHome()"
+            >
+                ← Back
+            </button>
+
+        </div>
+
+
+        <div class="panel rate-card">
+
+            <div class="rate-label">
+                1 US Dollar
+            </div>
+
+            <div
+                class="rate-main"
+                id="usdRateDisplay"
+            >
+                Loading...
+            </div>
+
+            <div
+                class="rate-date"
+                id="usdRateDate"
+            >
+                Getting latest rate...
+            </div>
+
+            <div
+                class="rate-error"
+                id="usdRateError"
+            ></div>
+
+            <div class="rate-actions">
+
+                <button
+                    class="secondary-btn usd-action-btn usd-refresh-btn"
+                    onclick="fetchUsdRate(true)"
+                >
+                    🔄 Refresh USD Rate
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- RATE HISTORY -->
+
+        <div class="panel rate-history-panel">
+
+            <div class="rate-history-header">
+
+                <div>
+
+                    <h3>
+                        📈 USD/PHP Rate History
+                    </h3>
+
+                    <p>
+                        Recent exchange-rate records.
+                    </p>
+
+                </div>
+
+                <button
+                    class="secondary-btn usd-action-btn usd-reset-btn"
+                    onclick="resetRateHistory()"
+                >
+                    ↺ Reset History
+                </button>
+
+            </div>
+
+
+            <div
+                class="rate-history-list"
+                id="rateHistoryList"
+            ></div>
+
+
+            <div class="rate-chart">
+
+                <div class="rate-chart-title">
+                    Recent USD → PHP movement
+                </div>
+
+                <div
+                    class="chart-bars"
+                    id="rateChartBars"
+                ></div>
+
+            </div>
+
+
+            <div class="history-note">
+
+                ℹ️ <strong>About these records:</strong>
+                Historical values are displayed as Philippine
+                pesos per US$1. The October 1, 2026 BSP reference
+                rate is ₱62.6010. Historical market/reference
+                values may differ slightly depending on the source,
+                time and methodology.
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section
+        id="summarySection"
+        class="content-section hidden"
+    >
+
+        <div class="section-header">
+
+            <div class="section-title">
+
+                <h1>
+                    📊 Summary
+                </h1>
+
+                <p>
+                    Your current class records.
+                </p>
+
+            </div>
+
+            <button
+                class="back-btn"
+                onclick="backHome()"
+            >
+                ← Back
+            </button>
+
+        </div>
+
+
+        <div class="summary-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    GP Slots
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="totalGP"
+                >
+                    0
+                </div>
+
+                <div class="stat-note">
+                    ₱20 each
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Entered Classes
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="totalEntered"
+                >
+                    0
+                </div>
+
+                <div class="stat-note">
+                    Determines tier
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Student No-Shows
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="totalNoShow"
+                >
+                    0
+                </div>
+
+                <div class="stat-note">
+                    ₱26 each
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Current Tier
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="summaryTier"
+                >
+                    1
+                </div>
+
+                <div
+                    class="stat-note"
+                    id="summaryTierRate"
+                >
+                    $0.85
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="panel-title">
+                Add Daily Record
+            </div>
+
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label>
+                        Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="recordDate"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>
+                        GP Slots
+                    </label>
+
+                    <input
+                        type="number"
+                        id="recordGP"
+                        min="0"
+                        value="0"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>
+                        Entered Classes
+                    </label>
+
+                    <input
+                        type="number"
+                        id="recordEntered"
+                        min="0"
+                        value="0"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>
+                        Student No-Shows
+                    </label>
+
+                    <input
+                        type="number"
+                        id="recordNoShow"
+                        min="0"
+                        value="0"
+                    >
+
+                </div>
+
+            </div>
+
+            <br>
+
+            <button
+                class="add-record-btn"
+                onclick="addRecord()"
+            >
+                + Add Daily Record
+            </button>
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+
+                            <th>GP Slots</th>
+
+                            <th>Entered</th>
+
+                            <th>No-Show</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody
+                        id="recordTableBody"
+                    ></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TIER -->
+
+    <section
+        id="tierSection"
+        class="content-section hidden"
+    >
+
+        <div class="section-header">
+
+            <div class="section-title">
+
+                <h1>
+                    🏆 Teacher Tier
+                </h1>
+
+                <p>
+                    Your tier is based on total entered classes.
+                </p>
+
+            </div>
+
+            <button
+                class="back-btn"
+                onclick="backHome()"
+            >
+                ← Back
+            </button>
+
+        </div>
+
+        <div class="panel">
+
+            <div class="tier-current">
+
+                <div
+                    class="tier-number"
+                    id="bigTierNumber"
+                >
+                    1
+                </div>
+
+                <div
+                    class="tier-rate"
+                    id="bigTierRate"
+                >
+                    $0.85
+                </div>
+
+                <div
+                    class="tier-range"
+                    id="bigTierRange"
+                >
+                    0–30 entered classes
+                </div>
+
+            </div>
+
+            <div
+                class="tier-table"
+                id="tierTable"
+            ></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PROFILE -->
+
+    <section
+        id="profileSection"
+        class="content-section hidden"
+    >
+
+        <div class="section-header">
+
+            <div class="section-title">
+
+                <h1>
+                    👤 Profile
+                </h1>
+
+                <p>
+                    Your account and appearance settings.
+                </p>
+
+            </div>
+
+            <button
+                class="back-btn"
+                onclick="backHome()"
+            >
+                ← Back
+            </button>
+
+        </div>
+
+
+        <div class="profile-grid">
+
+            <div class="panel profile-user">
+
+                <div class="profile-avatar" id="profileAvatar" aria-label="Profile photo">👤</div>
+                <label class="upload-control" for="profilePhotoInput">📷 Upload profile photo</label>
+                <input id="profilePhotoInput" class="file-input-hidden" type="file" accept="image/*" onchange="handleImageUpload(event, 'avatar')">
+                <button class="secondary-btn profile-action-btn" type="button" onclick="removeProfilePhoto()">↩ Remove profile photo</button>
+
+                <h2 id="profileUsername">
+                    Teacher
+                </h2>
+
+                <p>
+                    ESL Teacher Record Account
+                </p>
+
+                <div class="profile-account-actions">
+                    <button class="primary-btn profile-action-btn" type="button" onclick="openProfileEdit('name')">
+                        ✏️ Change Account Name
+                    </button>
+
+                    <button class="secondary-btn profile-action-btn" type="button" onclick="openProfileEdit('password')">
+                        🔒 Change Password
+                    </button>
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    🎨 Choose Theme
+                </div>
+
+                <div class="theme-options">
+
+                    <button
+                        class="theme-btn theme-ocean-btn"
+                        data-theme="ocean"
+                        onclick="setTheme('ocean')"
+                    >
+                        Arctic
+                    </button>
+
+                    <button
+                        class="theme-btn theme-purple-btn"
+                        data-theme="purple"
+                        onclick="setTheme('purple')"
+                    >
+                        Cyber Violet
+                    </button>
+
+                    <button
+                        class="theme-btn theme-emerald-btn"
+                        data-theme="emerald"
+                        onclick="setTheme('emerald')"
+                    >
+                        Aurora Mint
+                    </button>
+
+                    <button
+                        class="theme-btn theme-rose-btn"
+                        data-theme="rose"
+                        onclick="setTheme('rose')"
+                    >
+                        Electric Sky
+                    </button>
+
+                    <button
+                        class="theme-btn theme-sunset-btn"
+                        data-theme="sunset"
+                        onclick="setTheme('sunset')"
+                    >
+                        Ice Wave
+                    </button>
+
+                    <button
+                        class="theme-btn theme-midnight-btn"
+                        data-theme="midnight"
+                        onclick="setTheme('midnight')"
+                    >
+                        Deep Space
+                    </button>
+
+                </div>
+                <div class="wallpaper-settings">
+                    <div class="panel-title">🖼️ Your own wallpaper</div>
+                    <p class="panel-subtitle">Upload a photo or artwork to personalize your app background. It is saved for this account in this browser.</p>
+                    <label class="upload-control wallpaper-upload" for="wallpaperPhotoInput">✨ Upload background photo</label>
+                    <input id="wallpaperPhotoInput" class="file-input-hidden" type="file" accept="image/*" onchange="handleImageUpload(event, 'wallpaper')">
+                    <button class="secondary-btn" type="button" onclick="removeWallpaper()">🌌 Reset to animated theme</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="profileEditPanel" class="panel profile-edit-panel hidden">
+            <div class="profile-edit-header">
+                <div>
+                    <div class="panel-title" id="profileEditTitle">✏️ Change Account Name</div>
+                    <div class="panel-subtitle" id="profileEditSubtitle">Update the name used to log in to your account.</div>
+                </div>
+                <button class="popup-close profile-edit-close" type="button" onclick="closeProfileEdit()">✕</button>
+            </div>
+
+            <form id="changeNameForm" class="profile-edit-form" onsubmit="event.preventDefault(); changeAccountName();">
+                <div class="field">
+                    <label>New Account Name</label>
+                    <input id="newAccountName" type="text" autocomplete="username" placeholder="Enter your new account name">
+                </div>
+                <button class="primary-btn" type="submit">💾 Save Account Name</button>
+            </form>
+
+            <form id="changePasswordForm" class="profile-edit-form hidden" onsubmit="event.preventDefault(); changeAccountPassword();">
+                <div class="field">
+                    <label>Current Password</label>
+                    <div class="password-wrap">
+                        <input id="currentPassword" type="password" autocomplete="current-password" placeholder="Enter your current password">
+                        <button class="password-toggle" type="button" onclick="togglePassword('currentPassword', this)">👁</button>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>New Password</label>
+                    <div class="password-wrap">
+                        <input id="newPassword" type="password" autocomplete="new-password" placeholder="Enter your new password">
+                        <button class="password-toggle" type="button" onclick="togglePassword('newPassword', this)">👁</button>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Confirm New Password</label>
+                    <div class="password-wrap">
+                        <input id="confirmNewPassword" type="password" autocomplete="new-password" placeholder="Confirm your new password">
+                        <button class="password-toggle" type="button" onclick="togglePassword('confirmNewPassword', this)">👁</button>
+                    </div>
+                </div>
+                <button class="primary-btn" type="submit">🔐 Save New Password</button>
+            </form>
+        </div>
+
+    </section>
+
+</section>
+
+
+<!-- TOAST -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script>
+
+/* =========================================================
+   CONSTANTS
+========================================================= */
+
+const GP_SLOT_RATE_PHP = 20;
+const NO_SHOW_RATE_PHP = 26;
+
+const TIERS = [
+
+    {
+        tier: 1,
+        min: 0,
+        max: 30,
+        rate: 0.85,
+        range: "0–30"
+    },
+
+    {
+        tier: 2,
+        min: 31,
+        max: 60,
+        rate: 0.88,
+        range: "31–60"
+    },
+
+    {
+        tier: 3,
+        min: 61,
+        max: 90,
+        rate: 0.92,
+        range: "61–90"
+    },
+
+    {
+        tier: 4,
+        min: 91,
+        max: 150,
+        rate: 0.98,
+        range: "91–150"
+    },
+
+    {
+        tier: 5,
+        min: 151,
+        max: 210,
+        rate: 1.05,
+        range: "151–210"
+    },
+
+    {
+        tier: 6,
+        min: 211,
+        max: 270,
+        rate: 1.09,
+        range: "211–270"
+    },
+
+    {
+        tier: 7,
+        min: 271,
+        max: 330,
+        rate: 1.15,
+        range: "271–330"
+    },
+
+    {
+        tier: 8,
+        min: 331,
+        max: Infinity,
+        rate: 1.18,
+        range: "331+"
+    }
+
+];
+
+
+/* =========================================================
+   DEFAULT HISTORICAL USD/PHP DATA
+========================================================= */
+
+/*
+    These are recent historical reference/market values.
+
+    IMPORTANT:
+    October 1, 2026 BSP reference rate:
+    ₱62.6010 per US$1.
+
+    We do NOT use ₱34 because that would not represent
+    the actual USD/PHP exchange rate for that date.
+*/
+
+const DEFAULT_RATE_HISTORY = [
+
+    {
+        date: "2026-10-02",
+        rate: 62.5340,
+        source: "Historical market"
+    },
+
+    {
+        date: "2026-10-01",
+        rate: 62.6010,
+        source: "BSP reference"
+    },
+
+    {
+        date: "2026-09-30",
+        rate: 62.6750,
+        source: "Historical market"
+    },
+
+    {
+        date: "2026-09-29",
+        rate: 62.4950,
+        source: "Historical market"
+    },
+
+    {
+        date: "2026-09-28",
+        rate: 62.5040,
+        source: "Historical market"
+    },
+
+    {
+        date: "2026-09-25",
+        rate: 62.4570,
+        source: "Historical market"
+    },
+
+    {
+        date: "2026-09-24",
+        rate: 62.6230,
+        source: "Historical market"
+    }
+
+];
+
+
+let currentUser = null;
+let currentRecords = [];
+let currentUsdRate = null;
+let currentUsdRateDate = null;
+let rateTimer = null;
+let rateHistory = [];
+
+
+/* =========================================================
+   ELEMENT HELPER
+========================================================= */
+
+function $(id) {
+    return document.getElementById(id);
+}
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+function togglePassword(id, button) {
+
+    const input = $(id);
+
+    if (input.type === "password") {
+
+        input.type = "text";
+        button.textContent = "🙈";
+
+    } else {
+
+        input.type = "password";
+        button.textContent = "👁";
+
+    }
+
+}
+
+
+/* =========================================================
+   LOGIN / ACCOUNT
+========================================================= */
+
+function showCreateAccount() {
+
+    $("loginForm").classList.add("hidden");
+
+    $("createForm").classList.remove("hidden");
+
+}
+
+
+function showLogin() {
+
+    $("createForm").classList.add("hidden");
+
+    $("loginForm").classList.remove("hidden");
+
+}
+
+
+function createAccount() {
+
+    const username =
+        $("createUsername").value.trim();
+
+    const password =
+        $("createPassword").value;
+
+    const confirm =
+        $("confirmPassword").value;
+
+
+    if (!username || !password) {
+
+        showToast("Please complete all fields.");
+
+        return;
+
+    }
+
+
+    if (password !== confirm) {
+
+        showToast("Passwords do not match.");
+
+        return;
+
+    }
+
+
+    const key =
+        `eslAccount_${username}`;
+
+
+    if (localStorage.getItem(key)) {
+
+        showToast("That account already exists.");
+
+        return;
+
+    }
+
+
+    const account = {
+
+        username: username,
+
+        password: password,
+
+        theme: "ocean"
+
+    };
+
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(account)
+    );
+
+
+    localStorage.setItem(
+        `eslRecords_${username}`,
+        JSON.stringify([])
+    );
+
+
+    localStorage.setItem(
+        `eslRateHistory_${username}`,
+        JSON.stringify(DEFAULT_RATE_HISTORY)
+    );
+
+
+    $("createUsername").value = "";
+    $("createPassword").value = "";
+    $("confirmPassword").value = "";
+
+    $("loginUsername").value = username;
+
+    showLogin();
+
+    showToast("Account created successfully!");
+
+}
+
+
+function login() {
+
+    const username =
+        $("loginUsername").value.trim();
+
+    const password =
+        $("loginPassword").value;
+
+
+    if (!username || !password) {
+
+        showToast(
+            "Please enter your account and password."
+        );
+
+        return;
+
+    }
+
+
+    const accountData =
+        localStorage.getItem(
+            `eslAccount_${username}`
+        );
+
+
+    if (!accountData) {
+
+        showWrongPopup();
+
+        return;
+
+    }
+
+
+    let account;
+
+    try {
+
+        account =
+            JSON.parse(accountData);
+
+    } catch (error) {
+
+        showWrongPopup();
+
+        return;
+
+    }
+
+
+    if (account.password !== password) {
+
+        showWrongPopup();
+
+        return;
+
+    }
+
+
+    currentUser = account;
+
+
+    localStorage.setItem(
+        "currentESLUser",
+        username
+    );
+
+
+    loadUserData();
+
+
+    $("loginPage").classList.add("hidden");
+
+    $("mainApp").classList.remove("hidden");
+
+
+    applyTheme(
+        account.theme || "ocean"
+    );
+
+
+    showHome();
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout() {
+
+    localStorage.removeItem(
+        "currentESLUser"
+    );
+
+
+    currentUser = null;
+
+    currentRecords = [];
+
+    currentUsdRate = null;
+
+    rateHistory = [];
+
+
+    if (rateTimer) {
+
+        clearInterval(rateTimer);
+
+        rateTimer = null;
+
+    }
+
+
+    $("mainApp").classList.add("hidden");
+
+    $("loginPage").classList.remove("hidden");
+
+    showLogin();
+
+    $("loginUsername").value = "";
+
+    $("loginPassword").value = "";
+
+}
+
+
+/* =========================================================
+   WRONG ACCOUNT
+========================================================= */
+
+function showWrongPopup() {
+
+    $("wrongPopup")
+        .classList
+        .remove("hidden");
+
+}
+
+
+function closeWrongPopup() {
+
+    $("wrongPopup")
+        .classList
+        .add("hidden");
+
+}
+
+
+/* =========================================================
+   USER DATA
+========================================================= */
+
+function loadUserData() {
+
+    if (!currentUser) {
+        return;
+    }
+
+
+    const records =
+        localStorage.getItem(
+            `eslRecords_${currentUser.username}`
+        );
+
+
+    try {
+
+        currentRecords =
+            records
+                ? JSON.parse(records)
+                : [];
+
+        if (!Array.isArray(currentRecords)) {
+
+            currentRecords = [];
+
+        }
+
+    } catch (error) {
+
+        currentRecords = [];
+
+    }
+
+
+    const savedHistory =
+        localStorage.getItem(
+            `eslRateHistory_${currentUser.username}`
+        );
+
+
+    try {
+
+        rateHistory =
+            savedHistory
+                ? JSON.parse(savedHistory)
+                : [...DEFAULT_RATE_HISTORY];
+
+        if (!Array.isArray(rateHistory)) {
+
+            rateHistory = [...DEFAULT_RATE_HISTORY];
+
+        }
+
+    } catch (error) {
+
+        rateHistory = [...DEFAULT_RATE_HISTORY];
+
+    }
+
+
+    $("loggedUserDisplay").textContent =
+        `Logged in as ${currentUser.username}`;
+
+    const profileName = $("profileUsername");
+    if (profileName) profileName.textContent = currentUser.username;
+    const welcomeHeading = $("welcomeHeading");
+    if (welcomeHeading) welcomeHeading.textContent = `Welcome back, ${currentUser.username}! 👋`;
+    renderPersonalImages();
+
+
+    $("profileUsername").textContent =
+        currentUser.username;
+
+
+    renderSummary();
+
+    renderRecords();
+
+    renderTier();
+
+    renderRateHistory();
+
+    syncSalaryFromRecords();
+
+    updateSalarySchedule();
+
+}
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+function saveRecords() {
+
+    if (!currentUser) {
+        return;
+    }
+
+
+    localStorage.setItem(
+
+        `eslRecords_${currentUser.username}`,
+
+        JSON.stringify(currentRecords)
+
+    );
+
+}
+
+
+function saveRateHistory() {
+
+    if (!currentUser) {
+        return;
+    }
+
+
+    localStorage.setItem(
+
+        `eslRateHistory_${currentUser.username}`,
+
+        JSON.stringify(rateHistory)
+
+    );
+
+}
+
+
+/* =========================================================
+   RATE HISTORY
+========================================================= */
+
+function initializeRateHistory() {
+
+    if (!rateHistory.length) {
+
+        rateHistory =
+            [...DEFAULT_RATE_HISTORY];
+
+    }
+
+}
+
+
+function addRateToHistory(
+    date,
+    rate,
+    source = "Latest rate"
+) {
+
+    if (
+        !date ||
+        !Number.isFinite(Number(rate))
+    ) {
+
+        return;
+
+    }
+
+
+    const numericRate =
+        Number(rate);
+
+
+    const existingIndex =
+        rateHistory.findIndex(
+            item =>
+                item.date === date
+        );
+
+
+    const newEntry = {
+
+        date: date,
+
+        rate: numericRate,
+
+        source: source
+
+    };
+
+
+    if (existingIndex >= 0) {
+
+        rateHistory[existingIndex] =
+            newEntry;
+
+    } else {
+
+        rateHistory.push(
+            newEntry
+        );
+
+    }
+
+
+    rateHistory.sort(
+
+        (a, b) =>
+            new Date(b.date) -
+            new Date(a.date)
+
+    );
+
+
+    rateHistory =
+        rateHistory.slice(0, 14);
+
+
+    saveRateHistory();
+
+    renderRateHistory();
+
+}
+
+
+function renderRateHistory() {
+
+    const container =
+        $("rateHistoryList");
+
+    const chart =
+        $("rateChartBars");
+
+
+    if (!container) {
+        return;
+    }
+
+
+    initializeRateHistory();
+
+
+    const sorted =
+        [...rateHistory]
+            .sort(
+                (a, b) =>
+                    new Date(b.date) -
+                    new Date(a.date)
+            )
+            .slice(0, 14);
+
+
+    if (!sorted.length) {
+
+        container.innerHTML = `
+
+            <div style="
+                padding:30px;
+                text-align:center;
+                color:var(--muted);
+            ">
+                No rate history available.
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+
+        sorted.map(
+            (item, index) => {
+
+                const previous =
+                    sorted[index + 1];
+
+
+                let changeText =
+                    "—";
+
+                let changeClass =
+                    "";
+
+
+                if (previous) {
+
+                    const difference =
+                        item.rate -
+                        previous.rate;
+
+
+                    const percentage =
+                        (
+                            difference /
+                            previous.rate
+                        ) * 100;
+
+
+                    if (difference > 0) {
+
+                        changeText =
+                            `▲ ${percentage.toFixed(2)}%`;
+
+                        changeClass =
+                            "up";
+
+                    } else if (difference < 0) {
+
+                        changeText =
+                            `▼ ${Math.abs(percentage).toFixed(2)}%`;
+
+                        changeClass =
+                            "down";
+
+                    } else {
+
+                        changeText =
+                            "No change";
+
+                    }
+
+                }
+
+
+                return `
+
+                    <div
+                        class="rate-history-row
+                        ${index === 0 ? "latest" : ""}"
+                    >
+
+                        <div>
+
+                            <div class="history-date">
+
+                                ${formatDate(item.date)}
+
+                            </div>
+
+                            <span class="history-day">
+
+                                ${getDayName(item.date)}
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="history-rate">
+
+                            ₱${Number(item.rate).toFixed(4)}
+
+                        </div>
+
+
+                        <div
+                            class="history-change ${changeClass}"
+                        >
+
+                            ${changeText}
+
+                        </div>
+
+
+                        <div class="history-source">
+
+                            ${item.source || "Historical rate"}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+
+    renderRateChart(sorted);
+
+}
+
+
+function renderRateChart(data) {
+
+    const chart =
+        $("rateChartBars");
+
+
+    if (!chart) {
+        return;
+    }
+
+
+    const chartData =
+        [...data]
+            .reverse()
+            .slice(-7);
+
+
+    const rates =
+        chartData.map(
+            item =>
+                Number(item.rate)
+        );
+
+
+    if (!rates.length) {
+
+        chart.innerHTML = "";
+
+        return;
+
+    }
+
+
+    const min =
+        Math.min(...rates);
+
+    const max =
+        Math.max(...rates);
+
+    const range =
+        max - min || 1;
+
+
+    chart.innerHTML =
+
+        chartData.map(item => {
+
+            const normalized =
+                (
+                    (Number(item.rate) - min) /
+                    range
+                ) * 65 + 25;
+
+
+            return `
+
+                <div class="chart-bar-container">
+
+                    <div class="chart-value">
+
+                        ₱${Number(item.rate).toFixed(2)}
+
+                    </div>
+
+                    <div
+                        class="chart-bar"
+                        style="
+                            height:${normalized}%;
+                        "
+                        title="
+                            ${formatDate(item.date)}
+                            — ₱${Number(item.rate).toFixed(4)}
+                        "
+                    ></div>
+
+                    <div class="chart-date">
+
+                        ${formatShortDate(item.date)}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function resetRateHistory() {
+
+    const confirmed =
+        confirm(
+            "Reset your USD/PHP history to the default records?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    rateHistory =
+        [...DEFAULT_RATE_HISTORY];
+
+
+    saveRateHistory();
+
+    renderRateHistory();
+
+    showToast(
+        "USD/PHP rate history restored."
+    );
+
+}
+
+
+/* =========================================================
+   ADD RECORD
+========================================================= */
+
+function addRecord() {
+
+    const date =
+        $("recordDate").value;
+
+
+    const gp =
+        Math.max(
+            0,
+            Number($("recordGP").value) || 0
+        );
+
+
+    const entered =
+        Math.max(
+            0,
+            Number($("recordEntered").value) || 0
+        );
+
+
+    const noShow =
+        Math.max(
+            0,
+            Number($("recordNoShow").value) || 0
+        );
+
+
+    if (!date) {
+
+        showToast("Please select a date.");
+
+        return;
+
+    }
+
+
+    currentRecords.push({
+
+        id: Date.now(),
+
+        date: date,
+
+        gp: gp,
+
+        entered: entered,
+
+        noShow: noShow
+
+    });
+
+
+    saveRecords();
+
+    renderSummary();
+
+    renderRecords();
+
+    renderTier();
+
+    syncSalaryFromRecords();
+
+
+    $("recordGP").value = 0;
+    $("recordEntered").value = 0;
+    $("recordNoShow").value = 0;
+
+
+    showToast("Daily record added!");
+
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+function deleteRecord(id) {
+
+    id = Number(id);
+
+
+    const record =
+        currentRecords.find(
+            item =>
+                Number(item.id) === id
+        );
+
+
+    if (!record) {
+
+        showToast("Record not found.");
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            `Delete the record for ${formatDate(record.date)}?`
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    currentRecords =
+        currentRecords.filter(
+            item =>
+                Number(item.id) !== id
+        );
+
+
+    saveRecords();
+
+    renderSummary();
+
+    renderRecords();
+
+    renderTier();
+
+    syncSalaryFromRecords();
+
+
+    showToast("Record deleted successfully.");
+
+}
+
+
+/* =========================================================
+   EDIT
+========================================================= */
+
+function editRecord(id) {
+
+    id = Number(id);
+
+
+    const record =
+        currentRecords.find(
+            item =>
+                Number(item.id) === id
+        );
+
+
+    if (!record) {
+
+        showToast("Record not found.");
+
+        return;
+
+    }
+
+
+    const newDate =
+        prompt(
+            "Enter date (YYYY-MM-DD):",
+            record.date
+        );
+
+
+    if (newDate === null) {
+        return;
+    }
+
+
+    if (!newDate.trim()) {
+
+        showToast("Date cannot be empty.");
+
+        return;
+
+    }
+
+
+    const newGP =
+        prompt(
+            "Enter GP Slots:",
+            record.gp
+        );
+
+
+    if (newGP === null) {
+        return;
+    }
+
+
+    const newEntered =
+        prompt(
+            "Enter Entered Classes:",
+            record.entered
+        );
+
+
+    if (newEntered === null) {
+        return;
+    }
+
+
+    const newNoShow =
+        prompt(
+            "Enter Student No-Shows:",
+            record.noShow
+        );
+
+
+    if (newNoShow === null) {
+        return;
+    }
+
+
+    record.date = newDate.trim();
+
+    record.gp =
+        Math.max(0, Number(newGP) || 0);
+
+    record.entered =
+        Math.max(0, Number(newEntered) || 0);
+
+    record.noShow =
+        Math.max(0, Number(newNoShow) || 0);
+
+
+    saveRecords();
+
+    renderSummary();
+
+    renderRecords();
+
+    renderTier();
+
+    syncSalaryFromRecords();
+
+
+    showToast("Record updated successfully.");
+
+}
+
+
+/* =========================================================
+   TOTALS
+========================================================= */
+
+function getTotals() {
+
+    return currentRecords.reduce(
+
+        (totals, record) => {
+
+            totals.gp +=
+                Number(record.gp) || 0;
+
+            totals.entered +=
+                Number(record.entered) || 0;
+
+            totals.noShow +=
+                Number(record.noShow) || 0;
+
+
+            return totals;
+
+        },
+
+        {
+            gp: 0,
+            entered: 0,
+            noShow: 0
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   TIER
+========================================================= */
+
+function getTier(enteredClasses) {
+
+    const amount =
+        Math.max(
+            0,
+            Number(enteredClasses) || 0
+        );
+
+
+    return (
+
+        TIERS.find(
+
+            tier =>
+                amount >= tier.min &&
+                amount <= tier.max
+
+        )
+
+        ||
+
+        TIERS[TIERS.length - 1]
+
+    );
+
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+function renderSummary() {
+
+    const totals =
+        getTotals();
+
+
+    const tier =
+        getTier(totals.entered);
+
+
+    $("totalGP").textContent =
+        totals.gp;
+
+    $("totalEntered").textContent =
+        totals.entered;
+
+    $("totalNoShow").textContent =
+        totals.noShow;
+
+    $("summaryTier").textContent =
+        tier.tier;
+
+    $("summaryTierRate").textContent =
+        `$${tier.rate.toFixed(2)}`;
+
+}
+
+
+/* =========================================================
+   TIER DISPLAY
+========================================================= */
+
+function renderTier() {
+
+    const totals =
+        getTotals();
+
+
+    const tier =
+        getTier(totals.entered);
+
+
+    $("bigTierNumber").textContent =
+        tier.tier;
+
+    $("bigTierRate").textContent =
+        `$${tier.rate.toFixed(2)}`;
+
+    $("bigTierRange").textContent =
+        `${tier.range} entered classes`;
+
+
+    $("tierTable").innerHTML =
+
+        TIERS.map(t => {
+
+            const active =
+                t.tier === tier.tier
+                    ? "active"
+                    : "";
+
+
+            return `
+
+                <div class="tier-row ${active}">
+
+                    <span>
+                        Tier ${t.tier}
+                    </span>
+
+                    <span>
+                        ${t.range} classes
+                    </span>
+
+                    <span>
+                        $${t.rate.toFixed(2)}
+                    </span>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* =========================================================
+   RECORD TABLE
+========================================================= */
+
+function renderRecords() {
+
+    const body =
+        $("recordTableBody");
+
+
+    if (!body) {
+        return;
+    }
+
+
+    if (!currentRecords.length) {
+
+        body.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="5"
+                    style="
+                        text-align:center;
+                        color:var(--muted);
+                        padding:30px;
+                    "
+                >
+                    No records yet.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    const sorted =
+        [...currentRecords].sort(
+
+            (a, b) =>
+                new Date(b.date) -
+                new Date(a.date)
+
+        );
+
+
+    body.innerHTML =
+
+        sorted.map(record => {
+
+            return `
+
+                <tr>
+
+                    <td>
+                        ${formatDate(record.date)}
+                    </td>
+
+                    <td>
+                        ${record.gp}
+                    </td>
+
+                    <td>
+                        ${record.entered}
+                    </td>
+
+                    <td>
+                        ${record.noShow}
+                    </td>
+
+                    <td>
+
+                        <button
+                            type="button"
+                            class="table-action edit-btn"
+                            data-id="${record.id}"
+                        >
+                            ✏️ Edit
+                        </button>
+
+                        <button
+                            type="button"
+                            class="table-action delete delete-btn"
+                            data-id="${record.id}"
+                        >
+                            🗑️ Delete
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }).join("");
+
+
+    body
+        .querySelectorAll(".edit-btn")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    editRecord(
+                        Number(this.dataset.id)
+                    );
+
+                }
+            );
+
+        });
+
+
+    body
+        .querySelectorAll(".delete-btn")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    deleteRecord(
+                        Number(this.dataset.id)
+                    );
+
+                }
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   SALARY SYNC
+========================================================= */
+
+function syncSalaryFromRecords() {
+
+    const totals =
+        getTotals();
+
+
+    $("salaryEntered").value =
+        totals.entered;
+
+    $("salaryGP").value =
+        totals.gp;
+
+    $("salaryNoShow").value =
+        totals.noShow;
+
+
+    calculateSalary();
+
+}
+
+
+/* =========================================================
+   SALARY CALCULATION
+========================================================= */
+
+function calculateSalary() {
+
+    const entered =
+        Math.max(
+            0,
+            Number($("salaryEntered").value) || 0
+        );
+
+
+    const gp =
+        Math.max(
+            0,
+            Number($("salaryGP").value) || 0
+        );
+
+
+    const noShow =
+        Math.max(
+            0,
+            Number($("salaryNoShow").value) || 0
+        );
+
+
+    const tier =
+        getTier(entered);
+
+
+    const enteredPayUSD =
+        entered * tier.rate;
+
+
+    const gpPayPHP =
+        gp * GP_SLOT_RATE_PHP;
+
+
+    const noShowPayPHP =
+        noShow * NO_SHOW_RATE_PHP;
+
+
+    const enteredPayPHP =
+        currentUsdRate
+            ? enteredPayUSD * currentUsdRate
+            : 0;
+
+
+    const grossPHP =
+        enteredPayPHP +
+        gpPayPHP +
+        noShowPayPHP;
+
+
+    const coFee =
+        grossPHP * 0.30;
+
+
+    const teacherSalary =
+        grossPHP * 0.70;
+
+
+    $("salaryTierName").textContent =
+        `Tier ${tier.tier}`;
+
+    $("salaryTierRange").textContent =
+        `${tier.range} entered classes`;
+
+    $("salaryTierRate").textContent =
+        `$${tier.rate.toFixed(2)}`;
+
+
+    $("enteredPayUSD").textContent =
+        `$${enteredPayUSD.toFixed(2)}`;
+
+
+    $("enteredPayPHP").textContent =
+        currentUsdRate
+            ? formatPHP(enteredPayPHP)
+            : "Waiting for rate";
+
+
+    $("gpPayPHP").textContent =
+        formatPHP(gpPayPHP);
+
+
+    $("noShowPayPHP").textContent =
+        formatPHP(noShowPayPHP);
+
+
+    $("grossSalaryPHP").textContent =
+        currentUsdRate
+            ? formatPHP(grossPHP)
+            : "Waiting for rate";
+
+
+    $("coFeePHP").textContent =
+        currentUsdRate
+            ? formatPHP(coFee)
+            : "Waiting for rate";
+
+
+    $("teacherSalaryPHP").textContent =
+        currentUsdRate
+            ? formatPHP(teacherSalary)
+            : "Waiting for rate";
+
+
+    $("salaryResult").textContent =
+        currentUsdRate
+            ? formatPHP(teacherSalary)
+            : "₱0.00";
+
+
+    $("salaryResultSub").textContent =
+
+        currentUsdRate
+
+            ? `Based on ₱${currentUsdRate.toFixed(4)} per US$1`
+
+            : "Waiting for the current USD/PHP rate";
+
+}
+
+
+/* =========================================================
+   USD RATE
+========================================================= */
+
+async function fetchUsdRate(showMessage = false) {
+
+    const display =
+        $("usdRateDisplay");
+
+    const dateDisplay =
+        $("usdRateDate");
+
+    const errorDisplay =
+        $("usdRateError");
+
+
+    display.textContent =
+        "Loading...";
+
+    dateDisplay.textContent =
+        "Getting latest rate...";
+
+    errorDisplay.textContent = "";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "https://api.frankfurter.dev/v2/providers/bsp/rates?base=php",
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to retrieve BSP rate."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        let usdRow = null;
+
+
+        if (Array.isArray(data)) {
+
+            usdRow =
+                data.find(
+
+                    row =>
+                        String(row.quote)
+                            .toUpperCase() === "USD"
+
+                );
+
+        }
+
+        else if (
+            data &&
+            Array.isArray(data.rates)
+        ) {
+
+            usdRow =
+                data.rates.find(
+
+                    row =>
+                        String(row.quote)
+                            .toUpperCase() === "USD"
+
+                );
+
+        }
+
+
+        if (!usdRow) {
+
+            throw new Error(
+                "USD rate was not found."
+            );
+
+        }
+
+
+        const phpPerUsd =
+            1 / Number(usdRow.rate);
+
+
+        if (
+            !Number.isFinite(phpPerUsd) ||
+            phpPerUsd <= 0
+        ) {
+
+            throw new Error(
+                "Invalid exchange rate."
+            );
+
+        }
+
+
+        currentUsdRate =
+            phpPerUsd;
+
+
+        currentUsdRateDate =
+            usdRow.date ||
+            new Date()
+                .toISOString()
+                .split("T")[0];
+
+
+        display.textContent =
+            `₱${phpPerUsd.toFixed(4)}`;
+
+
+        dateDisplay.textContent =
+            `Rate date: ${formatDate(currentUsdRateDate)}`;
+
+
+        addRateToHistory(
+            currentUsdRateDate,
+            phpPerUsd,
+            "BSP latest"
+        );
+
+
+        calculateSalary();
+
+
+        if (showMessage) {
+
+            showToast(
+                "USD/PHP rate updated."
+            );
+
+        }
+
+
+    }
+
+    catch (error) {
+
+        try {
+
+            const fallback =
+                await fetch(
+                    "https://api.frankfurter.dev/v2/rate/usd/php",
+                    {
+                        cache: "no-store"
+                    }
+                );
+
+
+            if (!fallback.ok) {
+                throw new Error();
+            }
+
+
+            const fallbackData =
+                await fallback.json();
+
+
+            const rate =
+                Number(fallbackData.rate);
+
+
+            if (!Number.isFinite(rate)) {
+                throw new Error();
+            }
+
+
+            currentUsdRate =
+                rate;
+
+
+            currentUsdRateDate =
+                fallbackData.date ||
+                new Date()
+                    .toISOString()
+                    .split("T")[0];
+
+
+            display.textContent =
+                `₱${rate.toFixed(4)}`;
+
+
+            dateDisplay.textContent =
+                `Rate date: ${formatDate(currentUsdRateDate)}`;
+
+
+            addRateToHistory(
+                currentUsdRateDate,
+                rate,
+                "Market rate"
+            );
+
+
+            errorDisplay.textContent = "";
+
+            calculateSalary();
+
+
+            if (showMessage) {
+
+                showToast(
+                    "USD/PHP rate updated."
+                );
+
+            }
+
+
+        }
+
+        catch (fallbackError) {
+
+            /*
+                If internet is unavailable, use the latest
+                saved historical value instead of leaving
+                the salary completely unusable.
+            */
+
+            initializeRateHistory();
+
+
+            if (rateHistory.length) {
+
+                const latest =
+                    [...rateHistory]
+                        .sort(
+                            (a, b) =>
+                                new Date(b.date) -
+                                new Date(a.date)
+                        )[0];
+
+
+                currentUsdRate =
+                    Number(latest.rate);
+
+
+                currentUsdRateDate =
+                    latest.date;
+
+
+                display.textContent =
+                    `₱${currentUsdRate.toFixed(4)}`;
+
+
+                dateDisplay.textContent =
+                    `Saved rate: ${formatDate(currentUsdRateDate)}`;
+
+
+                errorDisplay.textContent =
+                    "Live rate unavailable. Using saved rate.";
+
+
+                calculateSalary();
+
+            } else {
+
+                display.textContent =
+                    "Unavailable";
+
+                dateDisplay.textContent =
+                    "Could not retrieve the exchange rate.";
+
+                errorDisplay.textContent =
+                    "Please check your internet connection and try again.";
+
+                currentUsdRate = null;
+
+                calculateSalary();
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   RATE REFRESH
+========================================================= */
+
+function startRateRefresh() {
+
+    if (rateTimer) {
+
+        clearInterval(rateTimer);
+
+    }
+
+
+    rateTimer =
+
+        setInterval(
+
+            () => {
+
+                const rateSection =
+                    $("rateSection");
+
+
+                if (
+                    rateSection &&
+                    !rateSection.classList.contains("hidden")
+                ) {
+
+                    fetchUsdRate(false);
+
+                }
+
+            },
+
+            30 * 60 * 1000
+
+        );
+
+}
+
+
+/* =========================================================
+   CUTOFF
+========================================================= */
+
+function getLastDayOfMonth(
+    year,
+    monthIndex
+) {
+
+    return new Date(
+        year,
+        monthIndex + 1,
+        0
+    );
+
+}
+
+
+function addWorkingDays(
+    startDate,
+    numberOfDays
+) {
+
+    const date =
+        new Date(startDate);
+
+    let count = 0;
+
+
+    while (count < numberOfDays) {
+
+        const day =
+            date.getDay();
+
+
+        if (
+            day !== 0 &&
+            day !== 6
+        ) {
+
+            count++;
+
+
+            if (count === numberOfDays) {
+                break;
+            }
+
+        }
+
+
+        date.setDate(
+            date.getDate() + 1
+        );
+
+    }
+
+
+    return date;
+
+}
+
+
+function updateSalarySchedule() {
+
+    const today =
+        new Date();
+
+
+    const year =
+        today.getFullYear();
+
+
+    const month =
+        today.getMonth();
+
+
+    const cutoff =
+        getLastDayOfMonth(
+            year,
+            month
+        );
+
+
+    const processingStart =
+        new Date(
+            year,
+            month + 1,
+            1
+        );
+
+
+    const releaseDate =
+        addWorkingDays(
+            processingStart,
+            10
+        );
+
+
+    $("salaryCutoffDate").textContent =
+        formatDateObject(cutoff);
+
+
+    $("salaryProcessingStart").textContent =
+        formatDateObject(processingStart);
+
+
+    $("salaryReleaseDate").textContent =
+        formatDateObject(releaseDate);
+
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+        return "—";
+    }
+
+
+    const date =
+        new Date(
+            `${dateString}T00:00:00`
+        );
+
+
+    if (Number.isNaN(date.getTime())) {
+        return dateString;
+    }
+
+
+    return date.toLocaleDateString(
+        "en-PH",
+        {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        }
+    );
+
+}
+
+
+function formatDateObject(date) {
+
+    return date.toLocaleDateString(
+        "en-PH",
+        {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        }
+    );
+
+}
+
+
+function formatShortDate(dateString) {
+
+    const date =
+        new Date(
+            `${dateString}T00:00:00`
+        );
+
+
+    if (Number.isNaN(date.getTime())) {
+        return dateString;
+    }
+
+
+    return date.toLocaleDateString(
+        "en-PH",
+        {
+            month: "short",
+            day: "numeric"
+        }
+    );
+
+}
+
+
+function getDayName(dateString) {
+
+    const date =
+        new Date(
+            `${dateString}T00:00:00`
+        );
+
+
+    if (Number.isNaN(date.getTime())) {
+        return "";
+    }
+
+
+    return date.toLocaleDateString(
+        "en-PH",
+        {
+            weekday: "long"
+        }
+    );
+
+}
+
+
+function formatPHP(amount) {
+
+    return (
+
+        "₱" +
+
+        Number(amount).toLocaleString(
+            "en-PH",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        )
+
+    );
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const sections = [
+
+    "salary",
+    "rate",
+    "summary",
+    "tier",
+    "profile"
+
+];
+
+
+function hideAllSections() {
+
+    sections.forEach(name => {
+
+        const section =
+            $(`${name}Section`);
+
+
+        if (section) {
+
+            section.classList.add("hidden");
+
+        }
+
+    });
+
+}
+
+
+function openSection(sectionName) {
+
+    $("welcomeScreen")
+        .classList
+        .add("hidden");
+
+
+    hideAllSections();
+
+
+    const section =
+        $(`${sectionName}Section`);
+
+
+    if (section) {
+
+        section.classList.remove("hidden");
+
+    }
+
+
+    if (sectionName === "salary") {
+
+        updateSalarySchedule();
+
+
+        if (!currentUsdRate) {
+
+            fetchUsdRate(false);
+
+        }
+
+
+        calculateSalary();
+
+    }
+
+
+    if (sectionName === "rate") {
+
+        renderRateHistory();
+
+        fetchUsdRate(false);
+
+    }
+
+
+    if (sectionName === "summary") {
+
+        renderSummary();
+
+        renderRecords();
+
+    }
+
+
+    if (sectionName === "tier") {
+
+        renderTier();
+
+    }
+
+
+    if (sectionName === "profile") {
+
+        updateThemeButtons();
+
+    }
+
+}
+
+
+function backHome() {
+
+    hideAllSections();
+
+    showHome();
+
+}
+
+
+function showHome() {
+
+    hideAllSections();
+
+    $("welcomeScreen")
+        .classList
+        .remove("hidden");
+
+}
+
+
+/* =========================================================
+   PROFILE ACCOUNT SETTINGS
+========================================================= */
+
+function openProfileEdit(type) {
+    const panel = $("profileEditPanel");
+    const nameForm = $("changeNameForm");
+    const passwordForm = $("changePasswordForm");
+    const title = $("profileEditTitle");
+    const subtitle = $("profileEditSubtitle");
+
+    if (!currentUser) {
+        showToast("Please log in first.");
+        return;
+    }
+
+    panel.classList.remove("hidden");
+
+    if (type === "password") {
+        title.textContent = "🔒 Change Password";
+        subtitle.textContent = "Enter your current password, then choose a new password.";
+        nameForm.classList.add("hidden");
+        passwordForm.classList.remove("hidden");
+        $("currentPassword").focus();
+    } else {
+        title.textContent = "✏️ Change Account Name";
+        subtitle.textContent = "Update the name used to log in to your account.";
+        passwordForm.classList.add("hidden");
+        nameForm.classList.remove("hidden");
+        $("newAccountName").value = currentUser.username || "";
+        $("newAccountName").focus();
+    }
+}
+
+function closeProfileEdit() {
+    $("profileEditPanel").classList.add("hidden");
+    $("changeNameForm").classList.remove("hidden");
+    $("changePasswordForm").classList.add("hidden");
+    $("newAccountName").value = "";
+    $("currentPassword").value = "";
+    $("newPassword").value = "";
+    $("confirmNewPassword").value = "";
+}
+
+function changeAccountName() {
+    if (!currentUser) return;
+
+    const oldUsername = currentUser.username;
+    const newUsername = $("newAccountName").value.trim();
+
+    if (!newUsername) { showToast("Please enter a new account name."); return; }
+    if (newUsername === oldUsername) { showToast("That is already your account name."); return; }
+    if (newUsername.length < 3) { showToast("Account name must be at least 3 characters."); return; }
+
+    const newKey = `eslAccount_${newUsername}`;
+    if (localStorage.getItem(newKey)) {
+        showToast("That account name is already in use.");
+        return;
+    }
+
+    const oldRecordsKey = `eslRecords_${oldUsername}`;
+    const oldHistoryKey = `eslRateHistory_${oldUsername}`;
+    const oldRecords = localStorage.getItem(oldRecordsKey);
+    const oldHistory = localStorage.getItem(oldHistoryKey);
+
+    const updatedAccount = { ...currentUser, username: newUsername };
+    localStorage.setItem(newKey, JSON.stringify(updatedAccount));
+
+    if (oldRecords !== null) localStorage.setItem(`eslRecords_${newUsername}`, oldRecords);
+    if (oldHistory !== null) localStorage.setItem(`eslRateHistory_${newUsername}`, oldHistory);
+
+    localStorage.removeItem(`eslAccount_${oldUsername}`);
+    localStorage.removeItem(oldRecordsKey);
+    localStorage.removeItem(oldHistoryKey);
+
+    currentUser = updatedAccount;
+    localStorage.setItem("currentESLUser", newUsername);
+    $("profileUsername").textContent = newUsername;
+    $("loggedUserDisplay").textContent = `Logged in as ${newUsername}`;
+    const welcomeHeading = $("welcomeHeading");
+    if (welcomeHeading) welcomeHeading.textContent = `Welcome back, ${newUsername}! 👋`;
+
+    closeProfileEdit();
+    showToast("Account name changed successfully!");
+}
+
+function changeAccountPassword() {
+    if (!currentUser) return;
+
+    const currentPassword = $("currentPassword").value;
+    const newPassword = $("newPassword").value;
+    const confirmPassword = $("confirmNewPassword").value;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+        showToast("Please complete all password fields.");
+        return;
+    }
+    if (currentPassword !== currentUser.password) {
+        showToast("Current password is incorrect.");
+        return;
+    }
+    if (newPassword.length < 4) {
+        showToast("New password must be at least 4 characters.");
+        return;
+    }
+    if (newPassword !== confirmPassword) {
+        showToast("New passwords do not match.");
+        return;
+    }
+    if (newPassword === currentPassword) {
+        showToast("Please choose a different password.");
+        return;
+    }
+
+    currentUser.password = newPassword;
+    localStorage.setItem(`eslAccount_${currentUser.username}`, JSON.stringify(currentUser));
+    closeProfileEdit();
+    showToast("Password changed successfully!");
+}
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function applyTheme(theme) {
+
+    const allowed = [
+
+        "ocean",
+        "purple",
+        "emerald",
+        "rose",
+        "sunset",
+        "midnight"
+
+    ];
+
+
+    if (!allowed.includes(theme)) {
+
+        theme = "ocean";
+
+    }
+
+
+    // Preserve personalization classes such as custom-wallpaper while changing color themes.
+    document.body.classList.remove(...allowed.map(name => `theme-${name}`));
+    document.body.classList.add(`theme-${theme}`);
+
+
+    if (currentUser) {
+
+        currentUser.theme =
+            theme;
+
+
+        localStorage.setItem(
+
+            `eslAccount_${currentUser.username}`,
+
+            JSON.stringify(currentUser)
+
+        );
+
+    }
+
+
+    updateThemeButtons();
+
+}
+
+
+function setTheme(theme) {
+
+    applyTheme(theme);
+
+
+    showToast(
+
+        `${theme.charAt(0).toUpperCase() + theme.slice(1)} theme applied.`
+
+    );
+
+}
+
+
+function updateThemeButtons() {
+
+    const current =
+        currentUser?.theme || "ocean";
+
+
+    document
+        .querySelectorAll(".theme-btn")
+        .forEach(button => {
+
+            button.classList.toggle(
+
+                "active",
+
+                button.dataset.theme === current
+
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer = null;
+
+
+function showToast(message) {
+
+    const toast =
+        $("toast");
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add("show");
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(
+
+            () => {
+
+                toast.classList.remove("show");
+
+            },
+
+            2500
+
+        );
+
+}
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+function initialize() {
+
+    const today =
+        new Date();
+
+
+    const year =
+        today.getFullYear();
+
+
+    const month =
+        String(
+            today.getMonth() + 1
+        ).padStart(2, "0");
+
+
+    const day =
+        String(
+            today.getDate()
+        ).padStart(2, "0");
+
+
+    $("recordDate").value =
+        `${year}-${month}-${day}`;
+
+
+    rateHistory =
+        [...DEFAULT_RATE_HISTORY];
+
+
+    renderTier();
+
+    renderRateHistory();
+
+    updateSalarySchedule();
+
+
+    const savedUser =
+        localStorage.getItem(
+            "currentESLUser"
+        );
+
+
+    if (savedUser) {
+
+        const accountData =
+            localStorage.getItem(
+                `eslAccount_${savedUser}`
+            );
+
+
+        if (accountData) {
+
+            try {
+
+                currentUser =
+                    JSON.parse(accountData);
+
+
+                loadUserData();
+
+
+                $("loginPage")
+                    .classList
+                    .add("hidden");
+
+
+                $("mainApp")
+                    .classList
+                    .remove("hidden");
+
+
+                applyTheme(
+                    currentUser.theme || "ocean"
+                );
+
+
+                showHome();
+
+            }
+
+            catch (error) {
+
+                localStorage.removeItem(
+                    "currentESLUser"
+                );
+
+                currentUser = null;
+
+            }
+
+        }
+
+    }
+
+
+    startRateRefresh();
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+);
+
+
+
+/* =========================================================
+   PREMIUM UI MICRO-INTERACTIONS — VISUAL ONLY
+========================================================= */
+(function premiumVisualUpgrade(){
+    const body = document.body;
+
+    // Transition layer
+    const transition = document.createElement('div');
+    transition.id = 'pageTransition';
+    document.body.appendChild(transition);
+
+    window.premiumPageTransition = function(callback){
+        transition.classList.add('active');
+        setTimeout(() => {
+            try { if (typeof callback === 'function') callback(); } finally {
+                setTimeout(() => transition.classList.remove('active'), 120);
+            }
+        }, 170);
+    };
+
+    // Ripple feedback on buttons.
+    document.addEventListener('click', (e) => {
+        const button = e.target.closest('button');
+        if (!button) return;
+        if (getComputedStyle(button).position === 'static') button.style.position = 'relative';
+        button.style.overflow = 'hidden';
+
+        const rect = button.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'ui-ripple';
+        ripple.style.left = (e.clientX - rect.left) + 'px';
+        ripple.style.top = (e.clientY - rect.top) + 'px';
+        button.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 700);
+    }, true);
+
+    // Subtle 3D card response to mouse movement.
+    document.addEventListener('mousemove', (e) => {
+        const card = e.target.closest('.menu-card');
+        if (!card || window.innerWidth <= 650) return;
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - .5;
+        const py = (e.clientY - r.top) / r.height - .5;
+        card.style.setProperty('--mx', (px * 2).toFixed(3));
+        card.style.setProperty('--my', (py * 2).toFixed(3));
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', () => {
+        document.querySelectorAll('.menu-card').forEach(card => {
+            card.style.removeProperty('--mx');
+            card.style.removeProperty('--my');
+        });
+    });
+
+    // Add a small stagger every time a section becomes visible.
+    function animateVisibleSection(){
+        document.querySelectorAll('.content-section:not(.hidden)').forEach(section => {
+            section.classList.remove('premium-section-refresh');
+            void section.offsetWidth;
+            section.classList.add('premium-section-refresh');
+        });
+    }
+
+    const style = document.createElement('style');
+    style.textContent = `
+        /* Holographic light-sweep effect — visual only */
+        .menu-card {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .menu-card::after {
+            content: "";
+            position: absolute;
+            inset: -80%;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+            background:
+                linear-gradient(
+                    115deg,
+                    transparent 35%,
+                    color-mix(in srgb, var(--accent) 0%, transparent) 43%,
+                    color-mix(in srgb, white 28%, transparent) 50%,
+                    color-mix(in srgb, var(--accent) 18%, transparent) 56%,
+                    transparent 64%
+                );
+            transform: translateX(-55%) rotate(12deg);
+            transition: opacity .25s ease, transform .85s cubic-bezier(.16,1,.3,1);
+        }
+
+        .menu-card:hover::after {
+            opacity: .9;
+            transform: translateX(55%) rotate(12deg);
+        }
+
+        .menu-card > * {
+            position: relative;
+            z-index: 3;
+        }
+
+        .premium-section-refresh {
+            animation: premiumSectionRefresh .48s var(--ease-premium) both !important;
+        }
+        @keyframes premiumSectionRefresh {
+            from { opacity: .2; transform: translateY(12px); filter: blur(3px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Wrap existing navigation functions without changing their behavior.
+    function wrapFunction(name){
+        if (typeof window[name] !== 'function' || window[name].__premiumWrapped) return;
+        const original = window[name];
+        const wrapped = function(...args){
+            if (name === 'openSection' || name === 'backHome') {
+                window.premiumPageTransition(() => {
+                    original.apply(this, args);
+                    setTimeout(animateVisibleSection, 40);
+                });
+            } else {
+                return original.apply(this, args);
+            }
+        };
+        wrapped.__premiumWrapped = true;
+        window[name] = wrapped;
+    }
+
+    // Functions are declared later in the file, so wait until the page is ready.
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            wrapFunction('openSection');
+            wrapFunction('backHome');
+        }, 0);
+    });
+
+    // Animate numeric result changes without altering their actual value.
+    window.premiumAnimateNumber = function(el, target, formatter){
+        if (!el || !Number.isFinite(target)) return;
+        const start = Number(el.dataset.premiumNumber || 0);
+        const duration = 650;
+        const startTime = performance.now();
+        const ease = t => 1 - Math.pow(1 - t, 3);
+        function frame(now){
+            const t = Math.min(1, (now - startTime) / duration);
+            const value = start + (target - start) * ease(t);
+            el.textContent = formatter ? formatter(value) : String(Math.round(value));
+            if (t < 1) requestAnimationFrame(frame);
+            else el.dataset.premiumNumber = String(target);
+        }
+        requestAnimationFrame(frame);
+    };
+
+    // Animate salary result when it changes through the existing app.
+    const salaryObserver = new MutationObserver((mutations) => {
+        mutations.forEach(m => {
+            if (m.type !== 'childList' && m.type !== 'characterData') return;
+            const el = m.target.nodeType === 1 ? m.target : m.target.parentElement;
+            if (!el || el.id !== 'salaryResult') return;
+            const raw = el.textContent.replace(/[^0-9.-]/g, '');
+            const value = parseFloat(raw);
+            if (!Number.isFinite(value) || el.dataset.premiumLock === '1') return;
+            el.dataset.premiumLock = '1';
+            setTimeout(() => { el.dataset.premiumLock = '0'; }, 40);
+        });
+    });
+
+    const salaryResult = document.getElementById('salaryResult');
+    if (salaryResult) salaryObserver.observe(salaryResult, { childList: true, characterData: true, subtree: true });
+
+    // Keyboard polish: Escape closes the wrong-account popup if available.
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && typeof window.closeWrongPopup === 'function') {
+            try { window.closeWrongPopup(); } catch (_) {}
+        }
+    });
+})();
+
+
+
+/* =========================================================
+   PERSONAL PHOTO + WALLPAPER CUSTOMIZATION
+   Images are resized before storage to reduce browser storage usage.
+========================================================= */
+function resizeImageForStorage(file, maxSize, quality) {
+    return new Promise((resolve, reject) => {
+        if (!file || !file.type || !file.type.startsWith('image/')) {
+            reject(new Error('Please choose a valid image file.')); return;
+        }
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error('Could not read that image.'));
+        reader.onload = () => {
+            const img = new Image();
+            img.onerror = () => reject(new Error('That image could not be opened.'));
+            img.onload = () => {
+                const scale = Math.min(1, maxSize / Math.max(img.naturalWidth, img.naturalHeight));
+                const canvas = document.createElement('canvas');
+                canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+                canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                resolve(canvas.toDataURL('image/jpeg', quality));
+            };
+            img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+async function handleImageUpload(event, kind) {
+    const input = event.target;
+    const file = input.files && input.files[0];
+    if (!file || !currentUser) return;
+    if (file.size > 12 * 1024 * 1024) {
+        showToast('Please choose an image smaller than 12 MB.'); input.value = ''; return;
+    }
+    try {
+        const dataUrl = await resizeImageForStorage(file, kind === 'avatar' ? 420 : 1600, kind === 'avatar' ? .82 : .78);
+        const field = kind === 'avatar' ? 'profilePhoto' : 'wallpaperPhoto';
+        currentUser[field] = dataUrl;
+        localStorage.setItem(`eslAccount_${currentUser.username}`, JSON.stringify(currentUser));
+        renderPersonalImages();
+        showToast(kind === 'avatar' ? 'Profile photo updated!' : 'Wallpaper updated!');
+    } catch (err) {
+        console.error(err);
+        showToast('Could not save that image. Try a smaller photo or reset an old wallpaper.');
+    } finally {
+        input.value = '';
+    }
+}
+
+function renderPersonalImages() {
+    if (!currentUser) return;
+    const avatar = document.getElementById('profileAvatar');
+    const homeAvatar = document.getElementById('homeProfilePhoto');
+    if (avatar) {
+        if (currentUser.profilePhoto) avatar.innerHTML = `<img src="${currentUser.profilePhoto}" alt="Your profile photo">`;
+        else avatar.textContent = '👤';
+    }
+    if (homeAvatar) {
+        if (currentUser.profilePhoto) homeAvatar.innerHTML = `<img src="${currentUser.profilePhoto}" alt="Your profile photo">`;
+        else homeAvatar.textContent = '👤';
+    }
+    document.body.classList.toggle('custom-wallpaper', Boolean(currentUser.wallpaperPhoto));
+    if (currentUser.wallpaperPhoto) {
+        const safeUrl = currentUser.wallpaperPhoto;
+        document.body.style.backgroundImage = `linear-gradient(rgba(3,9,24,.22),rgba(3,9,24,.30)),url("${safeUrl}")`;
+    } else {
+        document.body.style.backgroundImage = '';
+    }
+}
+
+function removeProfilePhoto() {
+    if (!currentUser) return;
+    delete currentUser.profilePhoto;
+    localStorage.setItem(`eslAccount_${currentUser.username}`, JSON.stringify(currentUser));
+    renderPersonalImages();
+    showToast('Profile photo removed.');
+}
+
+function removeWallpaper() {
+    if (!currentUser) return;
+    delete currentUser.wallpaperPhoto;
+    localStorage.setItem(`eslAccount_${currentUser.username}`, JSON.stringify(currentUser));
+    renderPersonalImages();
+    showToast('Animated theme background restored.');
+}
+
+</script>
+
+</body>
+</html>
